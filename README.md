@@ -9,3 +9,5 @@ Key Components:
 - Radar: https://esphome.netlify.app/components/at581x
 - Wake Word VA: https://github.com/esphome/wake-word-voice-assistants/
 - LVGL: https://esphome.io/components/lvgl/
+
+This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
