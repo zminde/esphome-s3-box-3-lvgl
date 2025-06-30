@@ -19,12 +19,16 @@ This configuration is suitable for anyone with an understanding of ESPHOME, the 
 
 # Home
 ![home](https://github.com/user-attachments/assets/19b1db2c-a7a9-41d6-a72a-3215d64bfcc8)
+- The microphone indicator is a mute switch
+- The alarm status indicator launches the security page
+- The wifi status indicator launches the wifi page
+- The battery indicator shows battery level
 
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
 
 # Lights
---coming--
+![lights](https://github.com/user-attachments/assets/650c78d1-3b2e-4940-942f-9be442687ede)
 
 # Controls
 ![controls](https://github.com/user-attachments/assets/9b612a6d-4c20-4df4-babb-dce395eaa85f)
