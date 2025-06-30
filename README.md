@@ -5,6 +5,8 @@ All credit and inspiration for the original UI goes to https://github.com/BigBob
 
 This firmware provides the S3 box with a template for voice assistant, timers, screen saver, analog clock, sleep, 12/24 hour time, media controls, radar sensing, temperature and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything else you can think of.
 
+The full configuration requires the S3-Box-3 with sensor dock and battery.
+
 Pin code is required for alarm deactivation or changing modes, but activation does not require. 
 
 Key Components:
