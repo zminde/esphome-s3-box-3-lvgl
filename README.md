@@ -17,12 +17,30 @@ Key Components:
 
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
 
+# Loading
+![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
+
 # Home
 ![home](https://github.com/user-attachments/assets/19b1db2c-a7a9-41d6-a72a-3215d64bfcc8)
 - The microphone indicator is a mute switch
 - The alarm status indicator launches the security page
 - The wifi status indicator launches the wifi page
 - The battery indicator shows battery level
+
+# Voice Assistant
+![voice_assistant](https://github.com/user-attachments/assets/be1ff06e-03ed-4ff1-9946-53632dce12de)
+
+Voice Timer Started
+
+![running_timer](https://github.com/user-attachments/assets/78ba5b8e-90c9-4d29-893d-173daf6c6707)
+
+Time Remaining
+
+![timer_remaining](https://github.com/user-attachments/assets/347f669a-3fff-4e83-b83f-a98d6d2b5891)
+
+Timer Finished
+
+![timer_finished](https://github.com/user-attachments/assets/9937af57-622a-445f-8673-225e46f03e45)
 
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
@@ -47,6 +65,9 @@ Keypad
 
 ![security_keypad](https://github.com/user-attachments/assets/e4230884-b372-48e3-96ac-6c31571d2bcd)
 
+# Screensaver
+![screensaver](https://github.com/user-attachments/assets/17d3bea1-6a0a-46b7-91c2-18b3a87ae473)
+
 # Settings
 ![settings](https://github.com/user-attachments/assets/b564ab49-f3aa-40a1-b863-54f2c40d5cb2)
 
@@ -69,3 +90,5 @@ Info
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
 
+# OTA Updates
+![ota](https://github.com/user-attachments/assets/b72041fb-3402-4387-a839-bb7c78d40b21)
