@@ -7,8 +7,6 @@ This firmware provides the S3 box with a template for voice assistant, timers, s
 
 The full configuration requires the S3-Box-3 with sensor dock and battery.
 
-Pin code is required for alarm deactivation or changing modes, but activation does not require. 
-
 Key Components:
 - Radar: https://esphome.netlify.app/components/at581x
 - Temperature & Humidity: https://esphome.io/components/sensor/aht10.html
@@ -54,8 +52,15 @@ Timer Finished
 ![controls](https://github.com/user-attachments/assets/9b612a6d-4c20-4df4-babb-dce395eaa85f)
 
 # Media
-![media](https://github.com/user-attachments/assets/5b75aed1-9fe1-408d-8af6-b9bc24e38b5d)
-- Controls change whether external media is enabled.
+Internal Audio
+
+![media](https://github.com/user-attachments/assets/8429813a-2a50-4d6e-b839-2099bf9da5d4)
+![media_mute](https://github.com/user-attachments/assets/e01a7fb4-7653-4dcc-9dee-16ae9e02b21e)
+
+External Audio
+
+![media_exterrnal](https://github.com/user-attachments/assets/cc9af414-de2a-4832-8bc7-78d8c03b7771)
+
 
 # Screens
 ![screens](https://github.com/user-attachments/assets/304c2778-a0d5-4183-9f65-31bf96287a61)
@@ -63,7 +68,7 @@ Timer Finished
 # Security
 ![security](https://github.com/user-attachments/assets/445e7b62-2109-4f29-89e4-6a72aa173744)
 
-Keypad
+Keypad - Pin code is required for alarm deactivation or changing modes, but not activation. 
 
 ![security_keypad](https://github.com/user-attachments/assets/e4230884-b372-48e3-96ac-6c31571d2bcd)
 
@@ -75,15 +80,16 @@ Keypad
 
 Voice Settings
 
-![settings_voice](https://github.com/user-attachments/assets/6ccd6889-d0aa-44b8-95d2-b19403bd2690)
+![voice_settings](https://github.com/user-attachments/assets/13930457-d662-438e-9dca-809a4c969fe4)
+
 
 Screensaver Settings
 
---coming--
+![screensaver](https://github.com/user-attachments/assets/56f8845c-0b13-426c-9974-813b05826f19)
 
 Screensaver Timeout Settings
 
---coming--
+![screensaver timeouts](https://github.com/user-attachments/assets/f2e838ca-03c5-4755-81c4-c77f1ffa28e2)
 
 Info
 
@@ -98,3 +104,6 @@ Device Settings
 
 # OTA Updates
 ![ota](https://github.com/user-attachments/assets/b72041fb-3402-4387-a839-bb7c78d40b21)
+
+# Configuration Guidance
+LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them a hierarchical page structure is used and most UI configuration is done in YAML.
