@@ -1,4 +1,4 @@
-# ESP32-S3-Box-3-Custom LVGL Firmware 
+# ESP32-S3-Box-3 LVGL Firmware 
 ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 
 All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
