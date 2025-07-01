@@ -89,6 +89,10 @@ Info
 
 ![settings_info](https://github.com/user-attachments/assets/39b2682f-fff6-46a9-a8d3-f61043336ae7)
 
+Device Settings
+
+--coming--
+
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
 
