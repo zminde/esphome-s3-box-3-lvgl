@@ -13,6 +13,8 @@ Key Components:
 - Wake Word VA: https://github.com/esphome/wake-word-voice-assistants/
 - LVGL: https://esphome.io/components/lvgl/
 
+This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
+
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
 
 # Loading
@@ -45,6 +47,10 @@ Timer Finished
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
 
+Air Conditioner
+
+![airconditioner](https://github.com/user-attachments/assets/5669463c-9815-49a9-aed5-636c6465e256)
+
 # Lights
 ![lights](https://github.com/user-attachments/assets/650c78d1-3b2e-4940-942f-9be442687ede)
 
@@ -60,7 +66,6 @@ Internal Audio
 External Audio
 
 ![media_exterrnal](https://github.com/user-attachments/assets/cc9af414-de2a-4832-8bc7-78d8c03b7771)
-
 
 # Screens
 ![screens](https://github.com/user-attachments/assets/304c2778-a0d5-4183-9f65-31bf96287a61)
@@ -97,7 +102,7 @@ Info
 
 Device Settings
 
---coming--
+![device_settings](https://github.com/user-attachments/assets/ef117464-a6b4-457f-abe3-f7dba3ef3e81)
 
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
