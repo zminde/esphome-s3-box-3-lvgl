@@ -25,7 +25,9 @@ This configuration is suitable for anyone with an understanding of ESPHOME, the 
 - The microphone indicator is a mute switch
 - The alarm status indicator launches the security page
 - The wifi status indicator launches the wifi page
-- The battery indicator shows battery level
+- The red circle button on the device will return to the home page, stop a ringing timer, stop the voice assistant and stop any media.
+- The top left button on the device will switch from Home page to screensaver, stop a ringing timer, or a long 10s press will perform a factory reset.
+- The bottom left button on the device will reboot the device. 
 
 # Voice Assistant
 ![voice_assistant](https://github.com/user-attachments/assets/be1ff06e-03ed-4ff1-9946-53632dce12de)
