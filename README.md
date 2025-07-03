@@ -9,7 +9,10 @@ The full configuration requires the S3-Box-3 with sensor dock and battery.
 
 Key Components:
 - Radar: https://esphome.netlify.app/components/at581x
-- Temperature & Humidity: https://esphome.io/components/sensor/aht10.html
+- Temperature & Humidity: https://esphome.io/components/sensor/aht10.html (but using AHT20 variant)
+- Touchscreen: https://esphome.io/components/touchscreen/gt911.html
+- Audio ADC: https://esphome.io/components/audio_adc/es7210.html
+- Audio DAC: https://esphome.io/components/audio_dac/es8311.html
 - Wake Word VA: https://github.com/esphome/wake-word-voice-assistants/
 - LVGL: https://esphome.io/components/lvgl/
 
@@ -112,9 +115,10 @@ Device Settings
 ![ota](https://github.com/user-attachments/assets/b72041fb-3402-4387-a839-bb7c78d40b21)
 
 # Configuration Guidance
-LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them a hierarchical page structure is used combining the touchscreen and UI elements.
+LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them separate to the touch screen configuration, LVGL uses a hierarchical page structure is used combining the touchscreen and UI elements.
 This means the LVGL section of the YAML contains all the UI elements including the pages and widgets. These widgets are interactive and have different actions associated to their type. 
 The widgets have their appearance and interactions defined in this section. 
-Setting the value of these widgets is not done in the LVGL configuration. Instead each component forces appropriate updates to the UI. So when a switch is turned on or off it needs to update the lvgl switch widget to be checked or not checked.
+Setting the status of these widgets is not done in the LVGL configuration. Instead each component forces appropriate updates to the UI. So when a switch is turned on or off it needs to update the lvgl switch widget to be checked or not checked.
 This means the UI updates interactively so that as actions are performed which can send service calls to home assistant or trigger local actions, the corresponding state changes in sensors can update the UI in response.
-For each new or modified widget you need to update in the LVGL the action to take when a UI interaction occurs and in parallel you need to update the component to update the UI on value changes. 
+For each new or modified widget you need to update in the LVGL the action to take when a UI interaction occurs and in parallel you need to update the component to update the UI on value changes.
+Example configuration is included to match the screens above providing starting configuration for how different types of devices can be configured.
