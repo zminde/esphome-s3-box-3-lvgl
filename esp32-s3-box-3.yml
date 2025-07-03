@@ -5349,8 +5349,10 @@ lvgl:
                         height: 15
                         indicator:
                           bg_color: yellow
+                          bg_grad_color: 0xcccc00                       
                         knob:
                           bg_color: yellow
+                          bg_grad_color: 0xe6e600                       
                         on_value:
                           - if:
                               condition:
