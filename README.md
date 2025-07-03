@@ -14,8 +14,9 @@ Key Components:
 - LVGL: https://esphome.io/components/lvgl/
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
-
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
+
+The minimum supported ESPHome version is 2025.6.0.
 
 # Loading
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
