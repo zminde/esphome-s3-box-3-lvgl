@@ -5,8 +5,6 @@ All credit and inspiration for the original UI goes to https://github.com/BigBob
 
 This firmware provides the S3 box with a template for voice assistant, timers, screen saver, analog clock, sleep, 12/24 hour time, media controls, radar sensing, temperature and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
 
-The full configuration requires the S3-Box-3 with sensor dock and battery.
-
 Key Components:
 - Radar: https://esphome.netlify.app/components/at581x
 - Temperature & Humidity: https://esphome.io/components/sensor/aht10.html (but using AHT20 variant)
@@ -19,7 +17,10 @@ Key Components:
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
 
+# Requirements
+Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en) with sensor dock and battery.
 The minimum supported ESPHome version is 2025.6.0.
+Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 
 # Loading
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
