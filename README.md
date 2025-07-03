@@ -92,7 +92,6 @@ Voice Settings
 
 ![voice_settings](https://github.com/user-attachments/assets/13930457-d662-438e-9dca-809a4c969fe4)
 
-
 Screensaver Settings
 
 ![screensaver](https://github.com/user-attachments/assets/56f8845c-0b13-426c-9974-813b05826f19)
@@ -107,7 +106,7 @@ Info
 
 Device Settings
 
-![device_settings](https://github.com/user-attachments/assets/ef117464-a6b4-457f-abe3-f7dba3ef3e81)
+![device_settings](https://github.com/user-attachments/assets/b6c1e168-a1ed-4e86-a51d-106fb899951d)
 
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
