@@ -15,7 +15,7 @@ Key Components:
 - LVGL: https://esphome.io/components/lvgl/
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
-This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and a voice pipeline.
+This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
 
 # Requirements
 Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en) with sensor dock and battery.
@@ -30,6 +30,7 @@ Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 - The microphone indicator is a mute switch
 - The alarm status indicator launches the security page
 - The wifi status indicator launches the wifi page
+- A timer status indicator will appear while a timer is running and will launch the time remaining page
 - The red circle button on the device will return to the home page, stop a ringing timer, stop the voice assistant and stop any media.
 - The top left button on the device will switch from Home page to screensaver, stop a ringing timer, or a long 10s press will perform a factory reset.
 - The bottom left button on the device will reboot the device. 
@@ -121,4 +122,4 @@ The widgets have their appearance and interactions defined in this section.
 Setting the status of these widgets is not done in the LVGL configuration. Instead each component forces appropriate updates to the UI. So when a switch is turned on or off it needs to update the lvgl switch widget to be checked or not checked.
 This means the UI updates interactively so that as actions are performed which can send service calls to home assistant or trigger local actions, the corresponding state changes in sensors can update the UI in response.
 For each new or modified widget you need to update in the LVGL the action to take when a UI interaction occurs and in parallel you need to update the component to update the UI on value changes.
-Example configuration is included to match the screens above providing starting configuration for how different types of devices can be configured.
+Example entity configuration is included to match the screens above providing starting configuration for how different types of devices can be configured.
