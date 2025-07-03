@@ -3,7 +3,10 @@ ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 
 All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
 
-This firmware provides the S3 box with a template for voice assistant, timers, screen saver, analog clock, sleep, 12/24 hour time, media controls, radar sensing, temperature and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver, analog clock, sleep, 12/24 hour time, media controls, radar sensing, temperature and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+
+This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
+This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
 
 Key Components:
 - Radar: https://esphome.netlify.app/components/at581x
@@ -14,12 +17,11 @@ Key Components:
 - Wake Word VA: https://github.com/esphome/wake-word-voice-assistants/
 - LVGL: https://esphome.io/components/lvgl/
 
-This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
-This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
-
 # Requirements
 Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en) with sensor dock and battery.
+
 The minimum supported ESPHome version is 2025.6.0.
+
 Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 
 # Loading
@@ -116,10 +118,11 @@ Device Settings
 ![ota](https://github.com/user-attachments/assets/b72041fb-3402-4387-a839-bb7c78d40b21)
 
 # Configuration Guidance
-LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them separate to the touch screen configuration, LVGL uses a hierarchical page structure is used combining the touchscreen and UI elements.
+LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them separate to the touch screen configuration, LVGL uses a hierarchical page structure combining the touchscreen and UI elements.
 This means the LVGL section of the YAML contains all the UI elements including the pages and widgets. These widgets are interactive and have different actions associated to their type. 
-The widgets have their appearance and interactions defined in this section. 
+
 Setting the status of these widgets is not done in the LVGL configuration. Instead each component forces appropriate updates to the UI. So when a switch is turned on or off it needs to update the lvgl switch widget to be checked or not checked.
-This means the UI updates interactively so that as actions are performed which can send service calls to home assistant or trigger local actions, the corresponding state changes in sensors can update the UI in response.
-For each new or modified widget you need to update in the LVGL the action to take when a UI interaction occurs and in parallel you need to update the component to update the UI on value changes.
+This means the UI updates interactively so that as actions are performed which send service calls to home assistant or trigger local actions, the corresponding state changes in sensors can update the UI in response.
+For each new or modified widget you need to update the LVGL to specify the action to take when a UI interaction occurs and in parallel you need to update the entity to update the UI on state changes.
+
 Example entity configuration is included to match the screens above providing starting configuration for how different types of devices can be configured.
