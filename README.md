@@ -42,7 +42,7 @@ Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 
 Voice Timer Started
 
-![running_timer](https://github.com/user-attachments/assets/78ba5b8e-90c9-4d29-893d-173daf6c6707)
+![timer_started](https://github.com/user-attachments/assets/95da5f64-3971-4d21-8de6-7767eb073e85)
 
 Time Remaining
 
@@ -86,7 +86,7 @@ Keypad - Pin code is required for alarm deactivation or changing modes, but not 
 ![security_keypad](https://github.com/user-attachments/assets/e4230884-b372-48e3-96ac-6c31571d2bcd)
 
 # Screensaver
-![screensaver](https://github.com/user-attachments/assets/17d3bea1-6a0a-46b7-91c2-18b3a87ae473)
+![screensaver](https://github.com/user-attachments/assets/cfd4a9a8-a897-48be-923c-ae969e15e118)
 
 # Settings
 ![settings](https://github.com/user-attachments/assets/b564ab49-f3aa-40a1-b863-54f2c40d5cb2)
