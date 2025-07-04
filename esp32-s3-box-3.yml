@@ -4324,6 +4324,7 @@ lvgl:
             text_align: LEFT
             styles: clock_style
             text_color: lightblue
+            text_font: my_font18
             x: 15
             y: 40
 
