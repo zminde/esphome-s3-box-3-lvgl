@@ -2009,37 +2009,37 @@ globals:
 image:
   - file: ${error_illustration_file}
     id: error_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${idle_illustration_file}
     id: idle_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${listening_illustration_file}
     id: listening_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${thinking_illustration_file}
     id: thinking_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${replying_illustration_file}
     id: replying_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${loading_illustration_file}
     id: loading_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${timer_finished_illustration_file}
     id: timer_finished_img
-    resize: 320x240
+    resize: 316x236
     type: RGB565
     transparency: alpha_channel
   - file: ${logo_illustration_file}
@@ -2737,7 +2737,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -2861,7 +2861,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3082,7 +3082,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3289,7 +3289,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3492,7 +3492,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3660,7 +3660,7 @@ lvgl:
               - obj:
                   id: obj_media
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3754,7 +3754,7 @@ lvgl:
                   id: bar_volume
                   align: CENTER          
                   height: 4
-                  width: 320
+                  width: 100%
                   y: 85
                   bg_color: 0x000000
                   bg_opa: TRANSP
@@ -3767,7 +3767,7 @@ lvgl:
                   id: obj_ext_media
                   hidden: true
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -3904,7 +3904,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4009,7 +4009,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4311,13 +4311,13 @@ lvgl:
                   align: CENTER
                   text_align: CENTER
                   styles: clock_style
-                  y: -30
+                  y: -20
               - label:
                   id: date_label
                   align: CENTER
                   text_align: CENTER
                   styles: clock_style
-                  y: 30
+                  y: 20
         - label:
             id: temp_label
             align: TOP_LEFT
@@ -4353,29 +4353,24 @@ lvgl:
         - obj:
             styles: page_content
             widgets:
-              - obj:
+              - image:
                   align: CENTER
-                  width: 320
-                  height: 240
-                  widgets:
-                    - image:
-                        align: CENTER
-                        src: thinking_img
-                    - label: 
-                        id: lbl_v_text_request1
-                        align: TOP_MID
-                        text_align: left
-                        text_color: 0x000000
-                        text_font: my_font16
-                        bg_color: 0xFFFFFF
-                        bg_opa: COVER
-                        pad_left: 5
-                        pad_right: 5
-                        x: 0
-                        y: 20
-                        height: 15
-                        width: 320
-                        text: " "
+                  src: thinking_img
+              - label: 
+                  id: lbl_v_text_request1
+                  align: TOP_MID
+                  text_align: left
+                  text_color: 0x000000
+                  text_font: my_font16
+                  bg_color: 0xFFFFFF
+                  bg_opa: COVER
+                  pad_left: 5
+                  pad_right: 5
+                  x: 0
+                  y: 35
+                  height: 15
+                  width: 90%
+                  text: " "
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -4392,44 +4387,39 @@ lvgl:
         - obj:
             styles: page_content
             widgets:
-              - obj:
+              - image:
                   align: CENTER
-                  width: 320
-                  height: 240
-                  widgets:
-                    - image:
-                        align: CENTER
-                        src: replying_img
-                    - label: 
-                        id: lbl_v_text_request2
-                        align: TOP_MID
-                        text_align: left
-                        text_color: 0x000000
-                        text_font: my_font16
-                        bg_color: 0xFFFFFF
-                        bg_opa: COVER
-                        pad_left: 5
-                        pad_right: 5
-                        x: 0
-                        y: 20
-                        height: 15
-                        width: 320
-                        text: " "
-                    - label: 
-                        id: lbl_v_text_response
-                        align: BOTTOM_MID
-                        text_align: left
-                        text_color: 0x000000
-                        text_font: my_font16
-                        bg_color: 0xFFFFFF
-                        bg_opa: COVER
-                        pad_left: 5
-                        pad_right: 5
-                        x: 0
-                        y: -20
-                        height: 15
-                        width: 320
-                        text: " "
+                  src: replying_img
+              - label: 
+                  id: lbl_v_text_request2
+                  align: TOP_MID
+                  text_align: left
+                  text_color: 0x000000
+                  text_font: my_font16
+                  bg_color: 0xFFFFFF
+                  bg_opa: COVER
+                  pad_left: 5
+                  pad_right: 5
+                  x: 0
+                  y: 35
+                  height: 15
+                  width: 90%
+                  text: " "
+              - label: 
+                  id: lbl_v_text_response
+                  align: BOTTOM_MID
+                  text_align: left
+                  text_color: 0x000000
+                  text_font: my_font16
+                  bg_color: 0xFFFFFF
+                  bg_opa: COVER
+                  pad_left: 5
+                  pad_right: 5
+                  x: 0
+                  y: -35
+                  height: 15
+                  width: 90%
+                  text: " "
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -4499,7 +4489,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 170
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4560,7 +4550,7 @@ lvgl:
                   text: " "
                   align: CENTER
                   height: 180
-                  width: 320
+                  width: 100%
                   text_font: my_font22
                   text_align: CENTER
                   bg_color: 0x000000
@@ -4606,7 +4596,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4728,7 +4718,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4848,7 +4838,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -4961,7 +4951,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -5246,7 +5236,7 @@ lvgl:
                         text_color: 0xFFFFFF
               - obj:
                   align: CENTER
-                  width: 320
+                  width: 100%
                   height: 180
                   pad_all: 6
                   bg_opa: TRANSP
@@ -5586,7 +5576,7 @@ lvgl:
           hidden: true
           align: bottom_mid          
           height: 3
-          width: 320
+          width: 100%
           y: -3
           bg_color: 0x000000
           bg_opa: TRANSP
