@@ -998,12 +998,28 @@ script:
                                 return (id(voice_assistant_phase) == ${voice_assist_thinking_phase_id});
                             then:
                               - lvgl.page.show: thinking_page
+                              - if:
+                                  condition:
+                                    lambda: return id(display_conversation).state;
+                                  then:
+                                    - lvgl.widget.show: lbl_v_text_request1
+                                  else:
+                                    - lvgl.widget.hide: lbl_v_text_request1
                         - if:
                             condition:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_replying_phase_id});
                             then:
                               - lvgl.page.show: replying_page
+                              - if:
+                                  condition:
+                                    lambda: return id(display_conversation).state;
+                                  then:
+                                    - lvgl.widget.show: lbl_v_text_request2
+                                    - lvgl.widget.show: lbl_v_text_response
+                                  else:
+                                    - lvgl.widget.hide: lbl_v_text_request2
+                                    - lvgl.widget.hide: lbl_v_text_response
                         - if:
                             condition:
                               lambda: |-
