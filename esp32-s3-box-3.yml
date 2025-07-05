@@ -591,7 +591,7 @@ media_player:
       - id: wake_sound_file
         file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/awake.flac
       - id: notify_sound_file
-        file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/awake.flac 
+        file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/notify.flac 
     on_state:
       then:
         - lambda: ESP_LOGD("media_player", "on_state");
@@ -1412,7 +1412,7 @@ script:
                     service: media_player.play_media
                     data:
                       entity_id: media_player.${external_media_player}
-                      media_content_id: '${home_assistant_host}/local/sounds/awake.mp3'
+                      media_content_id: '${home_assistant_host}/local/sounds/notify.mp3'
                       media_content_type: music
                 - delay: 500ms
       - lvgl.page.show: notification_page
@@ -1457,7 +1457,7 @@ script:
             time: !lambda return id(ha_time).now();
       - if:
           condition:
-            - lambda: 'return { (id(time_display_format).state == "24 Hr") };'
+            - lambda: 'return { (id(time_format).state == "24 Hr") };'
           then:
             - lvgl.label.update:
                 id: lbl_time
@@ -1857,35 +1857,12 @@ select:
                       then:
                         - micro_wake_word.start
 
-  - platform: template
-    entity_category: config
-    name: Time Format
+  - platform: lvgl
     id: time_format
-    optimistic: true
+    entity_category: config
     restore_value: true
-    options:
-      - 12 Hr
-      - 24 Hr
-    initial_option: 24 Hr
-    on_value:
-      then:
-        - if:
-            condition:
-              lambda: return x == "24 Hr";
-            then:
-              - text_sensor.template.publish:
-                  id: time_display_format
-                  state: !lambda 'return "24 Hr";'
-              - lvgl.dropdown.update:
-                  id: dropdown_timeformat
-                  selected_index: 1
-            else:
-              - text_sensor.template.publish:
-                  id: time_display_format
-                  state: !lambda 'return "12 Hr";'
-              - lvgl.dropdown.update:
-                  id: dropdown_timeformat
-                  selected_index: 0
+    name: Time Format
+    widget: dropdown_timeformat
 
   - platform: lvgl
     id: ss_clockstyle
@@ -5525,18 +5502,6 @@ lvgl:
                           selected:
                             checked:
                               text_color: 0xFF0000
-                        on_value:
-                          - if:
-                              condition:
-                                lambda: return (x == 0);
-                              then:
-                                - select.set_index:
-                                    id: time_format
-                                    index: 0
-                              else:
-                                - select.set_index:
-                                    id: time_format
-                                    index: 1
                     - label:
                         text: "Screensaver Clock"
                         align: CENTER
@@ -5719,7 +5684,7 @@ lvgl:
           y: 7
           text_font: icon_font_20
           text_color: 0xFFFFFF
-          text: "\U000F0150"
+          text: "\U000F051B"
           on_press:
             then:
               - lvgl.page.show: time_remaining_page
