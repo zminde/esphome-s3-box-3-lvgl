@@ -118,6 +118,8 @@ Device Settings
 ![ota](https://github.com/user-attachments/assets/b72041fb-3402-4387-a839-bb7c78d40b21)
 
 # Configuration Guidance
+To use the wake, notify and timer sounds with external audio you will need to load the sounds folder to the www folder in your home assistant. This can be done through an add on like Filebrowser or SambaShare.
+
 LVGL functions differently to the standard ESPHOME UI. Instead of using lambda to construct pages and format them separate to the touch screen configuration, LVGL uses a hierarchical page structure combining the touchscreen and UI elements.
 This means the LVGL section of the YAML contains all the UI elements including the pages and widgets. These widgets are interactive and have different actions associated to their type. 
 
