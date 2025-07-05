@@ -3,7 +3,7 @@ ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 
 All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
 
-This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver, analog clock, sleep, 12/24 hour time, media controls, radar sensing, temperature and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
