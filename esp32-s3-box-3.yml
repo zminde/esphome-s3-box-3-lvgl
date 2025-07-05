@@ -31,28 +31,6 @@ substitutions:
   home_assistant_host: http://homeassistant.local:8123 ##change to the full url or IP of your HA server including port
   tts_voice_speed: "24000" #options #nabu casa "24000" #piper "16000" elevenlabs "44100" must include quotes
 
-#####  Days and months #####
-  monday: Monday
-  tuesday: Tuesday
-  wednesday: Wednesday
-  thursday: Thursday
-  friday: Friday
-  saturday: Saturday
-  sunday: Sunday
-
-  jan: January
-  feb: February
-  mar: March
-  apr: April
-  may: May
-  jun: June
-  jul: July
-  aug: August
-  sept: September
-  oct: October
-  nov: November
-  dec: December
-
 ###### Fonts & Icons ######
   font_glyphs: '&@!"''%()+=,-_.:°/$€£¥?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzÀàÁáÂâÃãÄäĀāĂăÅåǺǻẠạĄąÆæǼǽĆćĈĉČčĊċÇçĎďĐđÐðÈèÉéÊêẼẽĚěËëĒēĔĕĖėẸẹĘęĜĝǦǧĞğĠġĢģĤĥĦħıÌìÍíÎîĨĩÏïĪīĬĭİỊịĮįȷĴĵĶķĸĹĺĽľĻļŁłĿŀŃńÑñŇňŅņƝɲŊŋŉÒòÓóÔôÕõÖöŌōŎŏŐőỌọǪǫØøǾǿŒœŔŕŘřŖŗŚśŜŝŠšŞşȘșẞßŤťŢţȚțŦŧÞþÙùÚúÛûŨũÜüŪūŬŭŮůŰűỤụŲųẀẁẂẃŴŵẄẅỲỳÝýŶŷỸỹŸÿȲȳŹźŽžŻżĲĳƏə'
   font_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/fonts/consola.ttf
@@ -220,24 +198,7 @@ interval:
           text: !lambda |-
             char buf[10];
             sprintf(buf, "%.1f%s", id(display_temp), (id(temp_unit).state == "Fahrenheit" ? "°F" : "°C"));
-            return buf;         
-  - interval: 1s
-    then:
-      - if:
-          condition:
-            - lambda: 'return { (id(time_display_format).state == "24 Hr") };'
-          then:
-            - lvgl.label.update:
-                id: lbl_time
-                text: 
-                  time_format: "%H:%M"
-                  time: !lambda return id(ha_time).now();
-          else:
-            - lvgl.label.update:
-                id: lbl_time
-                text: 
-                  time_format: "%l:%M %p"
-                  time: !lambda return id(ha_time).now();
+            return buf;
 
 button:
   - platform: factory_reset
@@ -629,6 +590,8 @@ media_player:
         file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/timer_finished.flac
       - id: wake_sound_file
         file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/awake.flac
+      - id: notify_sound_file
+        file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/sounds/awake.flac 
     on_state:
       then:
         - lambda: ESP_LOGD("media_player", "on_state");
@@ -1425,13 +1388,44 @@ script:
   - id: show_notification
     then:
       - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
+      - if:
+          condition:
+            and:
+              - switch.is_off: output_audio
+              - switch.is_on: notify_sound
+          then:
+            - media_player.speaker.play_on_device_media_file:
+                media_file: notify_sound_file
+                announcement: true
+            - wait_until:
+                not:
+                  - media_player.is_announcing:
+            - delay: 200ms
+          else:
+            if:
+              condition:
+                and:
+                  - switch.is_on: notify_sound
+                  - switch.is_on: output_audio
+              then:
+                - homeassistant.service:
+                    service: media_player.play_media
+                    data:
+                      entity_id: media_player.${external_media_player}
+                      media_content_id: '${home_assistant_host}/local/sounds/awake.mp3'
+                      media_content_type: music
+                - delay: 500ms
       - lvgl.page.show: notification_page
       - lvgl.textarea.update:
           id: area_notification
           text: !lambda |-
             const char* notifytext = id(notification_text).state.c_str();
             return notifytext;
+      - text.set:
+          id: notification_text
+          value: ""
       - delay: 10s
+      - lambda: id(previous_notification_text) = "";
       - lvgl.page.show: idle_page
       - script.execute: saver_enabled
 
@@ -1448,17 +1442,53 @@ script:
             return std::fmod(now.hour, 12) * 60 + now.minute;
       - lvgl.label.update:
           id: date_label
-          text: !lambda |-
-            static const char * const mon_names[] = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-            static char date_buf[8];
-            auto now = id(ha_time).now();
-            snprintf(date_buf, sizeof(date_buf), "%s %2d", mon_names[now.month-1], now.day_of_month);
-            return date_buf;
+          text: 
+            time_format: "%b %e"
+            time: !lambda return id(ha_time).now();
       - lvgl.label.update:
           id: day_label
-          text: !lambda |-
-            static const char * const day_names[] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-            return day_names[id(ha_time).now().day_of_week - 1];
+          text: 
+            time_format: "%a"
+            time: !lambda return id(ha_time).now();
+      - lvgl.label.update:
+          id: daydate_label
+          text: 
+            time_format: "%A %e %B %Y"
+            time: !lambda return id(ha_time).now();
+      - if:
+          condition:
+            - lambda: 'return { (id(time_display_format).state == "24 Hr") };'
+          then:
+            - lvgl.label.update:
+                id: lbl_time
+                text: 
+                  time_format: "%H:%M"
+                  time: !lambda return id(ha_time).now();
+            - lvgl.label.update:
+                id: digitaltime
+                text: 
+                  time_format: "%H:%M"
+                  time: !lambda return id(ha_time).now();
+          else:
+            - lvgl.label.update:
+                id: lbl_time
+                text: 
+                  time_format: "%l:%M %p"
+                  time: !lambda return id(ha_time).now();
+            - lvgl.label.update:
+                id: digitaltime
+                text: 
+                  time_format: "%l:%M %p"
+                  time: !lambda return id(ha_time).now();
+      - if:
+          condition:
+            - lambda: 'return { (id(ss_clockstyle).state == "Digital") };'
+          then:
+            - lvgl.widget.hide: analog
+            - lvgl.widget.show: digital
+          else:
+            - lvgl.widget.show: analog
+            - lvgl.widget.hide: digital
 
 switch:
   - platform: gpio
@@ -1701,6 +1731,24 @@ switch:
             checked: false
 
   - platform: template
+    id: notify_sound
+    name: Notification sound
+    icon: mdi:music
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF   
+    turn_on_action:
+      - lvgl.widget.update:
+          id: switch_notify_sound
+          state:
+            checked: true
+    turn_off_action:
+      - lvgl.widget.update:
+          id: switch_notify_sound
+          state:
+            checked: false
+            
+  - platform: template
     id: mute_response_switch
     name: Mute Responses
     icon: mdi:chat-sleep
@@ -1756,6 +1804,7 @@ switch:
   - platform: at581x
     at581x_id: "Radar"
     name: "Radar Enable"
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_ON
 
 select:
@@ -1837,6 +1886,14 @@ select:
               - lvgl.dropdown.update:
                   id: dropdown_timeformat
                   selected_index: 0
+
+  - platform: lvgl
+    id: ss_clockstyle
+    entity_category: config
+    restore_value: true
+    name: Screensaver Clock
+    widget: dropdown_ssclock
+
   - platform: template
     id: temp_unit
     name: "Temperature Unit"
@@ -2068,6 +2125,12 @@ font:
       '${font_glyphs}'
 
   - file: ${font_file}
+    id: my_font60
+    size: 60
+    glyphs:
+      '${font_glyphs}'
+
+  - file: ${font_file}
     id: my_font18
     size: 18
     glyphs:
@@ -2116,6 +2179,7 @@ font:
       - "\U000F04DB"#stop
       - "\U000F0502"#screen settings
       - "\U000F050F"#temp sensor
+      - "\U000F051B"#timer
       - "\U000F0521"#toggle on
       - "\U000F0565"#arming
       - "\U000F057E"#speaker on
@@ -2307,7 +2371,7 @@ text_sensor:
 
   - platform: homeassistant
     name: "Alarm Status"
-    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
     id: alarm_status
     on_value:
       then:
@@ -2678,7 +2742,7 @@ key_collector:
             - homeassistant.service:
                   service: alarm_control_panel.alarm_disarm
                   data:
-                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                     code: !lambda return x.c_str();
       - if:
           condition:
@@ -2687,7 +2751,7 @@ key_collector:
             - homeassistant.service:
                   service: alarm_control_panel.alarm_arm_home
                   data:
-                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                     code: !lambda return x.c_str();
       - if:
           condition:
@@ -2696,7 +2760,7 @@ key_collector:
             - homeassistant.service:
                   service: alarm_control_panel.alarm_arm_away
                   data:
-                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                     code: !lambda return x.c_str();
       - if:
           condition:
@@ -2705,7 +2769,7 @@ key_collector:
             - homeassistant.service:
                   service: alarm_control_panel.alarm_arm_night
                   data:
-                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                    entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                     code: !lambda return x.c_str();
       - lambda: id(alarm_action) = "";
       - script.execute: set_alarm_status
@@ -2874,7 +2938,7 @@ lvgl:
                     grid_rows: [FR(10), FR(10), FR(30), FR(10), FR(10), FR(30)]
                   widgets:
                     - label:
-                        text: "Studio AC"  # Name for temperature 1 with AC page
+                        text: "Studio AC"  # Name for temperature 1 with AC
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -3095,7 +3159,7 @@ lvgl:
                     grid_rows: [FR(10), FR(40), FR(10), FR(40)]
                   widgets:
                     - label:
-                        text: "Studio AC" # Name for temperature 1 with AC page
+                        text: "Studio AC" # Name for temperature 1 with AC
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -4003,7 +4067,7 @@ lvgl:
                   styles: header_footer 
                   widgets:
                     - label:
-                        text: "Security"  ## Security Page Title
+                        text: "Security" ## Security Page Title
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -4109,7 +4173,7 @@ lvgl:
                                 - homeassistant.service:
                                     service: alarm_control_panel.alarm_arm_home
                                     data:
-                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                                 - script.execute: set_alarm_status
                               else:
                                 - lambda: |-
@@ -4128,7 +4192,7 @@ lvgl:
                                 - homeassistant.service:
                                     service: alarm_control_panel.alarm_arm_away
                                     data:
-                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                                 - script.execute: set_alarm_status
                               else:
                                 - lambda: |-
@@ -4147,7 +4211,7 @@ lvgl:
                                 - homeassistant.service:
                                     service: alarm_control_panel.alarm_arm_night
                                     data:
-                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity if different
+                                      entity_id: alarm_control_panel.alarmo ## Replace with alarmo entity
                                 - script.execute: set_alarm_status
                               else:
                                 - lambda: |-
@@ -4247,15 +4311,17 @@ lvgl:
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
-        - obj: # clock
+        - obj: # clock analog
+            id: analog
             height: SIZE_CONTENT
-            width: 170
+            width: 100%
             align: CENTER
             pad_all: 0
             border_width: 0
             bg_color: 0x000000
             widgets:
               - meter: 
+                  id: clockface
                   height: 170
                   width: 170
                   align: CENTER
@@ -4311,13 +4377,36 @@ lvgl:
                   align: CENTER
                   text_align: CENTER
                   styles: clock_style
-                  y: -20
+                  y: -25
               - label:
                   id: date_label
                   align: CENTER
                   text_align: CENTER
                   styles: clock_style
-                  y: 20
+                  y: 25
+        - obj: # clock digital
+            id: digital
+            hidden: true
+            height: 100%
+            width: 100%
+            align: CENTER
+            pad_all: 0
+            border_width: 0
+            bg_color: 0x000000
+            widgets:
+              - label:
+                  id: digitaltime
+                  align: CENTER
+                  text_align: CENTER
+                  text_color: 0xFFFFFF
+                  text_font: my_font60    
+              - label:
+                  id: daydate_label
+                  align: CENTER
+                  text_align: CENTER
+                  text_color: 0xFFFFFF
+                  text_font: my_font22                  
+                  y: 45
         - label:
             id: temp_label
             align: TOP_LEFT
@@ -4700,6 +4789,29 @@ lvgl:
                               text: "\U000F08D6"
                         on_press:
                           - lvgl.page.show: device_set_page
+                    - label:
+                        text: "Clock"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 2
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                    - button:
+                        id: but_settings_5
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 3
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                        widgets:
+                          - label:
+                              id: ico_settings_5
+                              align: CENTER
+                              text_font: icon_font_55
+                              text: "\U000F0150"
+                        on_press:
+                          - lvgl.page.show: clock_set_page
 
     - id: voice_set_page
       skip: true
@@ -5267,7 +5379,7 @@ lvgl:
                         on_click:
                           switch.toggle: output_audio
                     - label:
-                        text: "Time Format"
+                        text: "Notification Sound"
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -5275,32 +5387,15 @@ lvgl:
                         grid_cell_row_pos: 1
                         grid_cell_x_align: END
                         grid_cell_y_align: CENTER
-                    - dropdown:
-                        id: dropdown_timeformat
+                    - switch:
+                        id: switch_notify_sound
                         align: CENTER
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
-                        grid_cell_x_align: STRETCH
-                        grid_cell_y_align: STRETCH
-                        options:
-                          - 12 Hr
-                          - 24 Hr
-                        dropdown_list:
-                          selected:
-                            checked:
-                              text_color: 0xFF0000
-                        on_value:
-                          - if:
-                              condition:
-                                lambda: return (x == 0);
-                              then:
-                                - select.set_index:
-                                    id: time_format
-                                    index: 0
-                              else:
-                                - select.set_index:
-                                    id: time_format
-                                    index: 1
+                        grid_cell_x_align: CENTER
+                        grid_cell_y_align: CENTER
+                        on_click:
+                          switch.toggle: notify_sound
                     - label:
                         text: "Temperature Unit"
                         align: CENTER
@@ -5365,10 +5460,10 @@ lvgl:
                         height: 15
                         indicator:
                           bg_color: yellow
-                          bg_grad_color: 0xcccc00                       
+                          bg_grad_color: 0xcccc00
                         knob:
                           bg_color: yellow
-                          bg_grad_color: 0xe6e600                       
+                          bg_grad_color: 0xe6e600
                         on_value:
                           - if:
                               condition:
@@ -5377,6 +5472,94 @@ lvgl:
                                 - number.set:
                                     id: s_default_brightness
                                     value: !lambda return x;
+                                    
+    - id: clock_set_page
+      skip: true
+      widgets:
+        - obj:
+            styles: page_content
+            widgets:
+              - obj:
+                  align: TOP_MID
+                  styles: header_footer 
+                  widgets:
+                    - label:
+                        text: "Clock"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+              - obj:
+                  align: CENTER
+                  width: 100%
+                  height: 180
+                  pad_all: 6
+                  bg_opa: TRANSP
+                  border_opa: TRANSP
+                  layout:
+                    pad_row: 6
+                    pad_column: 8
+                    type: GRID
+                    grid_columns: [FR(1), FR(1)]
+                    grid_rows: [FR(25), FR(25), FR(25), FR(25)]
+                  widgets:
+                    - label:
+                        text: "Time Format"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 0
+                        grid_cell_row_pos: 0
+                        grid_cell_x_align: END
+                        grid_cell_y_align: CENTER
+                    - dropdown:
+                        id: dropdown_timeformat
+                        align: CENTER
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 0
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                        options:
+                          - 12 Hr
+                          - 24 Hr
+                        dropdown_list:
+                          selected:
+                            checked:
+                              text_color: 0xFF0000
+                        on_value:
+                          - if:
+                              condition:
+                                lambda: return (x == 0);
+                              then:
+                                - select.set_index:
+                                    id: time_format
+                                    index: 0
+                              else:
+                                - select.set_index:
+                                    id: time_format
+                                    index: 1
+                    - label:
+                        text: "Screensaver Clock"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 0
+                        grid_cell_row_pos: 1
+                        grid_cell_x_align: END
+                        grid_cell_y_align: CENTER
+                    - dropdown:
+                        id: dropdown_ssclock
+                        align: CENTER
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 1
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                        options:
+                          - Analog
+                          - Digital
+                        dropdown_list:
+                          selected:
+                            checked:
+                              text_color: 0xFF0000
 
     - id: wifi_page
       skip: true
