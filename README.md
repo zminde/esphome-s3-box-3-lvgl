@@ -28,7 +28,7 @@ Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
 
 # Home
-![home](https://github.com/user-attachments/assets/19b1db2c-a7a9-41d6-a72a-3215d64bfcc8)
+![home](https://github.com/user-attachments/assets/c203e51d-90fa-4515-ab5f-3832160a6f21)
 - The microphone indicator is a mute switch
 - The alarm status indicator launches the security page
 - The wifi status indicator launches the wifi page
@@ -38,11 +38,11 @@ Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
 - The bottom left button on the device will reboot the device. 
 
 # Voice Assistant
-![voice_assistant](https://github.com/user-attachments/assets/be1ff06e-03ed-4ff1-9946-53632dce12de)
+![voice](https://github.com/user-attachments/assets/8c36d316-00ce-40dd-b0ed-fcafdacbfcda)
 
 Voice Timer Started
 
-![timer_started](https://github.com/user-attachments/assets/95da5f64-3971-4d21-8de6-7767eb073e85)
+![voice_timer](https://github.com/user-attachments/assets/51b9e7ec-b701-449e-9680-143d9a2e822d)
 
 Time Remaining
 
@@ -87,9 +87,10 @@ Keypad - Pin code is required for alarm deactivation or changing modes, but not 
 
 # Screensaver
 ![screensaver](https://github.com/user-attachments/assets/cfd4a9a8-a897-48be-923c-ae969e15e118)
+![screensaver_digital](https://github.com/user-attachments/assets/e4175cca-149b-4f56-bf76-430edc172a47)
 
 # Settings
-![settings](https://github.com/user-attachments/assets/b564ab49-f3aa-40a1-b863-54f2c40d5cb2)
+![settings](https://github.com/user-attachments/assets/27169459-f2b5-44ef-868b-3dc892c938d4)
 
 Voice Settings
 
@@ -109,7 +110,11 @@ Info
 
 Device Settings
 
-![device_settings](https://github.com/user-attachments/assets/b6c1e168-a1ed-4e86-a51d-106fb899951d)
+![settings_device](https://github.com/user-attachments/assets/bb127ed8-8100-4d58-a6f8-a4563086bda5)
+
+Clock Settings
+
+![settings_clock](https://github.com/user-attachments/assets/e2063b32-8b89-45f9-9b1f-e621c1bc9b91)
 
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
