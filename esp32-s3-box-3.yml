@@ -4717,7 +4717,7 @@ lvgl:
                               id: ico_settings_2
                               align: CENTER
                               text_font: icon_font_55
-                              text: "\U000F0502"
+                              text: "\U000F0D90"
                         on_press:
                           - lvgl.page.show: ss_set_page
                     - label:
@@ -4767,7 +4767,7 @@ lvgl:
                         on_press:
                           - lvgl.page.show: device_set_page
                     - label:
-                        text: "Clock"
+                        text: "UI"
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -4786,9 +4786,9 @@ lvgl:
                               id: ico_settings_5
                               align: CENTER
                               text_font: icon_font_55
-                              text: "\U000F0150"
+                              text: "\U000F0502"
                         on_press:
-                          - lvgl.page.show: clock_set_page
+                          - lvgl.page.show: ui_set_page
 
     - id: voice_set_page
       skip: true
@@ -5373,41 +5373,6 @@ lvgl:
                         grid_cell_y_align: CENTER
                         on_click:
                           switch.toggle: notify_sound
-                    - label:
-                        text: "Temperature Unit"
-                        align: CENTER
-                        text_align: CENTER
-                        text_color: 0xFFFFFF
-                        grid_cell_column_pos: 0
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: END
-                        grid_cell_y_align: CENTER
-                    - dropdown:
-                        id: dropdown_tempunit
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: STRETCH
-                        grid_cell_y_align: STRETCH
-                        options:
-                          - Celsius
-                          - Fahrenheit
-                        dropdown_list:
-                          selected:
-                            checked:
-                              text_color: 0xFF0000
-                        on_value:
-                          - if:
-                              condition:
-                                lambda: return (x == 0);
-                              then:
-                                - select.set_index:
-                                    id: temp_unit
-                                    index: 0
-                              else:
-                                - select.set_index:
-                                    id: temp_unit
-                                    index: 1
               - obj:
                    align: CENTER
                    y: 75
@@ -5450,7 +5415,7 @@ lvgl:
                                     id: s_default_brightness
                                     value: !lambda return x;
                                     
-    - id: clock_set_page
+    - id: ui_set_page
       skip: true
       widgets:
         - obj:
@@ -5461,7 +5426,7 @@ lvgl:
                   styles: header_footer 
                   widgets:
                     - label:
-                        text: "Clock"
+                        text: "UI"
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -5525,6 +5490,41 @@ lvgl:
                           selected:
                             checked:
                               text_color: 0xFF0000
+                    - label:
+                        text: "Temperature Unit"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 0
+                        grid_cell_row_pos: 2
+                        grid_cell_x_align: END
+                        grid_cell_y_align: CENTER
+                    - dropdown:
+                        id: dropdown_tempunit
+                        align: CENTER
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 2
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                        options:
+                          - Celsius
+                          - Fahrenheit
+                        dropdown_list:
+                          selected:
+                            checked:
+                              text_color: 0xFF0000
+                        on_value:
+                          - if:
+                              condition:
+                                lambda: return (x == 0);
+                              then:
+                                - select.set_index:
+                                    id: temp_unit
+                                    index: 0
+                              else:
+                                - select.set_index:
+                                    id: temp_unit
+                                    index: 1
 
     - id: wifi_page
       skip: true
