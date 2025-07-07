@@ -90,7 +90,7 @@ Keypad - Pin code is required for alarm deactivation or changing modes, but not 
 ![screensaver_digital](https://github.com/user-attachments/assets/e4175cca-149b-4f56-bf76-430edc172a47)
 
 # Settings
-![settings](https://github.com/user-attachments/assets/27169459-f2b5-44ef-868b-3dc892c938d4)
+![settings](https://github.com/user-attachments/assets/9f51c38d-4a3f-450a-9771-42b6d3ad4c6e)
 
 Voice Settings
 
@@ -112,9 +112,9 @@ Device Settings
 
 ![settings_device](https://github.com/user-attachments/assets/bb127ed8-8100-4d58-a6f8-a4563086bda5)
 
-Clock Settings
+UI Settings
 
-![settings_clock](https://github.com/user-attachments/assets/e2063b32-8b89-45f9-9b1f-e621c1bc9b91)
+![ui_settings](https://github.com/user-attachments/assets/2875cbf9-b96a-4eec-9997-0c7f1fac2f32)
 
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
