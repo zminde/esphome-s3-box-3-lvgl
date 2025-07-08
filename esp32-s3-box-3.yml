@@ -1,6 +1,7 @@
 substitutions:
   name: esp32-s3box-3
   friendly_name: ESP32-S3-Box-3
+  #Default Images
   loading_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/loading_lvgl.png
   idle_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/idle.png
   listening_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/listening.png
@@ -9,6 +10,15 @@ substitutions:
   error_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/error.png
   timer_finished_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/timer_finished_320_240.png
   logo_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/logo.png
+  
+  # Animated Voice Assistant images
+  anim_listening1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/listening_1.png #listening
+  anim_listening2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/listening_2.png #listening, thinking
+  anim_thinking1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/thinking_1.png #thinking
+  anim_thinking2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/thinking_2.png #thinking, replying
+  anim_replying1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_1.png #replying
+  anim_replying2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_2.png #replying
+  anim_error1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/error_1.png #error
 
   loading_illustration_background_color: "000000"
   idle_illustration_background_color: "000000"
@@ -73,7 +83,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.02"
+    version: "2025.07.08"
 
 esp32:
   board: esp32s3box
@@ -925,6 +935,7 @@ script:
           condition:
             lambda: return !id(init_in_progress);
           then:
+            - script.execute: set_uimode
             - if:
                 condition:
                   wifi.connected:
@@ -962,18 +973,30 @@ script:
                                   - lambda: |-
                                       return (id(voice_assistant_phase) == ${voice_assist_timer_finishing_phase_id});
                             then:
-                              - lvgl.page.show: idle_page                      
+                              - lvgl.page.show: idle_page
+                              - lvgl.animimg.stop:
+                                  id: listening_anim
+                              - lvgl.animimg.stop:
+                                  id: thinking_anim 
+                              - lvgl.animimg.stop:
+                                  id: replying_anim                          
                         - if:
                             condition:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_listening_phase_id});
                             then:
+                              - lvgl.animimg.start:
+                                  id: listening_anim
                               - lvgl.page.show: listening_page
                         - if:
                             condition:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_thinking_phase_id});
                             then:
+                              - lvgl.animimg.stop:
+                                  id: listening_anim
+                              - lvgl.animimg.start:
+                                  id: thinking_anim
                               - lvgl.page.show: thinking_page
                               - if:
                                   condition:
@@ -987,6 +1010,10 @@ script:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_replying_phase_id});
                             then:
+                              - lvgl.animimg.stop:
+                                  id: thinking_anim
+                              - lvgl.animimg.start:
+                                  id: replying_anim
                               - lvgl.page.show: replying_page
                               - if:
                                   condition:
@@ -1504,6 +1531,57 @@ script:
             - lvgl.widget.show: analog
             - lvgl.widget.hide: digital
 
+  - id: set_uimode
+    then:
+      - if:
+          condition: 
+            - lambda: return (id(current_uimode) != id(uimode).state);
+          then:
+            - if:
+                condition: 
+                  lambda: return (id(uimode).state == "Default");
+                then:
+                  - lvgl.style.update:
+                      id: header_footer
+                      bg_color: 0x1d5f96
+                      bg_grad_color: 0x004466
+                  - lvgl.buttonmatrix.update:
+                      id: top_layer
+                      items:
+                        bg_color: 0x185281
+                        bg_grad_color: 0x00334d
+                  - lvgl.widget.hide: listening_anim
+                  - lvgl.widget.show: listening
+                  - lvgl.widget.hide: thinking_anim
+                  - lvgl.widget.show: thinking
+                  - lvgl.widget.hide: replying_anim
+                  - lvgl.widget.show: replying
+                  - lvgl.widget.hide: error_anim
+                  - lvgl.widget.show: error
+            - if:
+                condition: 
+                  lambda: return (id(uimode).state == "HAL");
+                then:
+                  - lvgl.style.update:
+                      id: header_footer
+                      bg_color: 0x1a1a1a
+                      bg_grad_color: 0x000000
+                  - lvgl.buttonmatrix.update:
+                      id: top_layer
+                      items:
+                        bg_color: 0x1a1a1a
+                        bg_grad_color: 0x000000	
+                  - lvgl.widget.show: listening_anim
+                  - lvgl.widget.hide: listening
+                  - lvgl.widget.show: thinking_anim
+                  - lvgl.widget.hide: thinking
+                  - lvgl.widget.show: replying_anim
+                  - lvgl.widget.hide: replying
+                  - lvgl.widget.show: error_anim
+                  - lvgl.widget.hide: error
+            - lambda: id(current_uimode) = id(uimode).state;
+            - lvgl.widget.refresh:
+
 switch:
   - platform: gpio
     name: Speaker Enable
@@ -1884,6 +1962,13 @@ select:
     restore_value: true
     name: Screensaver Clock
     widget: dropdown_ssclock
+    
+  - platform: lvgl
+    id: uimode
+    entity_category: config
+    restore_value: true
+    name: UI Mode
+    widget: dropdown_uimode
 
   - platform: template
     id: temp_unit
@@ -2053,7 +2138,10 @@ globals:
     type: float
     restore_value: no
     initial_value: '0.0'
-
+  - id: current_uimode
+    type: std::string
+    initial_value: ""
+    
 image:
   - file: ${error_illustration_file}
     id: error_img
@@ -2095,7 +2183,42 @@ image:
     resize: 80x75
     type: RGB565
     transparency: alpha_channel
-
+  - file: ${anim_listening1}
+    id: anim_listening1
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_listening2}
+    id: anim_listening2
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_thinking1}
+    id: anim_thinking1
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_thinking2}
+    id: anim_thinking2
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_replying1}
+    id: anim_replying1
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_replying2}
+    id: anim_replying2
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim_error1}
+    id: anim_error1
+    resize: 316x236
+    type: RGB565
+    transparency: alpha_channel
+    
 font:
   - file: ${font_file}
     id: my_font
@@ -4415,8 +4538,16 @@ lvgl:
             styles: page_content
             widgets:
               - image:
+                  id: listening
                   align: CENTER
                   src: listening_img
+              - animimg:
+                  id: listening_anim
+                  auto_start: false
+                  hidden: true
+                  align: CENTER
+                  src: [ anim_listening1, anim_listening2 ]
+                  duration: 750ms
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -4434,8 +4565,16 @@ lvgl:
             styles: page_content
             widgets:
               - image:
+                  id: thinking
                   align: CENTER
                   src: thinking_img
+              - animimg:
+                  id: thinking_anim
+                  auto_start: false
+                  hidden: true
+                  align: CENTER
+                  src: [ anim_listening2, anim_thinking1, anim_thinking2 ]
+                  duration: 500ms
               - label: 
                   id: lbl_v_text_request1
                   align: TOP_MID
@@ -4468,8 +4607,16 @@ lvgl:
             styles: page_content
             widgets:
               - image:
+                  id: replying
                   align: CENTER
                   src: replying_img
+              - animimg:
+                  id: replying_anim
+                  auto_start: false
+                  hidden: true
+                  align: CENTER
+                  src: [ anim_thinking2, anim_replying1, anim_replying2 ]
+                  duration: 300ms
               - label: 
                   id: lbl_v_text_request2
                   align: TOP_MID
@@ -4517,8 +4664,14 @@ lvgl:
             styles: page_content
             widgets:
               - image:
+                  id: error
                   align: CENTER
                   src: error_img
+              - image:
+                  id: error_anim
+                  hidden: true
+                  align: CENTER
+                  src: anim_error1
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -5539,6 +5692,32 @@ lvgl:
                                 - select.set_index:
                                     id: temp_unit
                                     index: 1
+                    - label:
+                        text: "UI Mode"
+                        align: CENTER
+                        text_align: CENTER
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 0
+                        grid_cell_row_pos: 3
+                        grid_cell_x_align: END
+                        grid_cell_y_align: CENTER
+                    - dropdown:
+                        id: dropdown_uimode
+                        align: CENTER
+                        grid_cell_column_pos: 1
+                        grid_cell_row_pos: 3
+                        grid_cell_x_align: STRETCH
+                        grid_cell_y_align: STRETCH
+                        options:
+                          - Default
+                          - HAL
+                        dropdown_list:
+                          selected:
+                            checked:
+                              text_color: 0xFF0000
+                        on_value:
+                          - delay: 1s
+                          - script.execute: set_uimode
 
     - id: wifi_page
       skip: true
@@ -5801,6 +5980,8 @@ lvgl:
       text_color: 0xFFFFFF
       pad_all: 0
       items:
+        # bg_color: 0x1a1a1a # dark
+        # bg_grad_color: 0x000000 # dark
         bg_color: 0x185281
         bg_grad_color: 0x00334d
         bg_grad_dir: VER
@@ -5851,6 +6032,8 @@ lvgl:
         text_color: 0xFFFFFF
   style_definitions:
     - id: header_footer
+      # bg_color: 0x1a1a1a # dark
+      # bg_grad_color: 0x000000 # dark
       bg_color: 0x1d5f96
       bg_grad_color: 0x004466
       bg_grad_dir: VER
@@ -5874,7 +6057,6 @@ lvgl:
     - id: clock_style
       text_color: 0xFFFFFF
       text_font: my_font
-
 
 binary_sensor:
 ###### top left hand physical button #######
