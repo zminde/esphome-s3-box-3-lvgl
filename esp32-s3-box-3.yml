@@ -629,6 +629,20 @@ media_player:
       - lambda: ESP_LOGD("media_player", "on_play");
       - wait_until:
           - lambda: return id(global_is_assisting) == false;
+      ###### Stop Voice Assistant - https://github.com/esphome/issues/issues/7199 ######
+      - if:
+          condition:
+            - microphone.is_capturing:
+          then:
+            - script.execute: stop_wake_word
+            - if:
+                condition:
+                  - lambda: return id(wake_word_engine_location).state == "In Home Assistant";
+                then:
+                  - wait_until:
+                      - not:
+                          voice_assistant.is_running:
+      ########################
     on_announcement:
       - lambda: ESP_LOGD("media_player", "on_announcement");
       - if:
