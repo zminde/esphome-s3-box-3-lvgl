@@ -4,6 +4,7 @@ ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
 
 This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+A new enhancement is the ability to switch from the standard voice assistant UI to a HAL 9000 style voice assistant UI.
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
@@ -44,6 +45,12 @@ Voice Timer Started
 
 ![voice_timer](https://github.com/user-attachments/assets/51b9e7ec-b701-449e-9680-143d9a2e822d)
 
+Voice Assistant in HAL UI Mode
+
+https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
+- When enabled this UI replaces the above standard Voice Assistant screens
+
+
 Time Remaining
 
 ![timer_remaining](https://github.com/user-attachments/assets/347f669a-3fff-4e83-b83f-a98d6d2b5891)
@@ -70,6 +77,7 @@ Internal Audio
 
 ![media](https://github.com/user-attachments/assets/8429813a-2a50-4d6e-b839-2099bf9da5d4)
 ![media_mute](https://github.com/user-attachments/assets/e01a7fb4-7653-4dcc-9dee-16ae9e02b21e)
+- The volume controls on the media page control the volume of the S3 box including the Voice Assistant.
 
 External Audio
 
@@ -95,14 +103,25 @@ Keypad - Pin code is required for alarm deactivation or changing modes, but not 
 Voice Settings
 
 ![voice_settings](https://github.com/user-attachments/assets/13930457-d662-438e-9dca-809a4c969fe4)
+- WakeWord Location can be changed from On Device to Home Assistant
+- Mute Responses will mute any response
+- Wake Sound will play a wake sound when voice assistant wakes
+- Show Conversation will display an excerpt of the conversation on the voice assistant screens.
 
 Screensaver Settings
 
 ![screensaver](https://github.com/user-attachments/assets/56f8845c-0b13-426c-9974-813b05826f19)
+- Timeout Settings opens next page
+- Enable Screensaver turns on screensaver at time specified
+- Wake on Presence wakes the device when the radar detects motion
+- Timeout to Blank turns off the screen at time specified
 
 Screensaver Timeout Settings
 
 ![screensaver timeouts](https://github.com/user-attachments/assets/f2e838ca-03c5-4755-81c4-c77f1ffa28e2)
+- Delay Secs is the time until the screensaver starts
+- Dim Brightness is the brightness level to use when the screensaver is enabled
+- Screen Off Delay is the time until the screen turns off.
 
 Info
 
@@ -111,10 +130,17 @@ Info
 Device Settings
 
 ![settings_device](https://github.com/user-attachments/assets/bb127ed8-8100-4d58-a6f8-a4563086bda5)
+- Ext Media Player outputs audio to the external audio player configured in the substitions section.
+- Notification sound triggers a sound when a text notification is sent to the device. This is different to the wake sound.
+- Brightness slider controls screen brightness
 
 UI Settings
 
-![ui_settings](https://github.com/user-attachments/assets/2875cbf9-b96a-4eec-9997-0c7f1fac2f32)
+![uisettings](https://github.com/user-attachments/assets/dfa35db8-f2c6-49d7-8f5f-d13f26713a55)
+- Time Format provides 12 or 24 HR time shown in all places
+- ScreenSaver Clock allows Analog or Digital clock to be shown
+- Tperature Unit updates all displayed temperatures to be Celsius or Fahrenheit
+- UI Mode provides the ability to choose between the standard HA Voice Assistant UI or a HAL 9000 style animated voice assistant.
 
 # Wifi
 ![wifi](https://github.com/user-attachments/assets/b3d620e6-5143-4904-b3ef-78cab5da5b4a)
