@@ -19,7 +19,7 @@ substitutions:
   anim_replying1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_1.png #replying
   anim_replying2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_2.png #replying
   anim_error1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/error_1.png #error
-
+  
   loading_illustration_background_color: "000000"
   idle_illustration_background_color: "000000"
   listening_illustration_background_color: "FFFFFF"
@@ -2145,37 +2145,37 @@ globals:
 image:
   - file: ${error_illustration_file}
     id: error_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${idle_illustration_file}
     id: idle_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${listening_illustration_file}
     id: listening_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${thinking_illustration_file}
     id: thinking_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${replying_illustration_file}
     id: replying_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${loading_illustration_file}
     id: loading_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${timer_finished_illustration_file}
     id: timer_finished_img
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${logo_illustration_file}
@@ -2185,37 +2185,37 @@ image:
     transparency: alpha_channel
   - file: ${anim_listening1}
     id: anim_listening1
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_listening2}
     id: anim_listening2
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_thinking1}
     id: anim_thinking1
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_thinking2}
     id: anim_thinking2
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_replying1}
     id: anim_replying1
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_replying2}
     id: anim_replying2
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
   - file: ${anim_error1}
     id: anim_error1
-    resize: 316x236
+    resize: 318x238
     type: RGB565
     transparency: alpha_channel
     
@@ -5932,7 +5932,7 @@ lvgl:
           y: 0
           width: 100%
           height: 100%
-          bg_color: 0xffffff
+          bg_color: 0x000000
           bg_opa: COVER
           radius: 0
           pad_all: 0
@@ -6054,6 +6054,7 @@ lvgl:
       pad_all: 0
       pad_row: 0
       pad_column: 0
+      border_width: 0
     - id: clock_style
       text_color: 0xFFFFFF
       text_font: my_font
