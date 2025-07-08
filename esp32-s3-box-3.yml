@@ -252,8 +252,8 @@ sensor:
     variant: AHT20
     temperature:
       name: "S3 Temperature"
-      filters:
-        offset: -3
+      #filters:
+      #  offset: -3
       id: s3temp
     humidity:
       name: "S3 Humidity"
