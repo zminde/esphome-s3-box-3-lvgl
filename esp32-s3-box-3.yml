@@ -2390,10 +2390,10 @@ text_sensor:
           then:
             - lvgl.label.update:
                 id: lbl_v_text_request1
-                long_mode: SCROLL
+                long_mode: SCROLL_CIRCULAR
             - lvgl.label.update:
                 id: lbl_v_text_request2
-                long_mode: SCROLL
+                long_mode: SCROLL_CIRCULAR
           else:
             - lvgl.label.update:
                 id: lbl_v_text_request1
@@ -2423,7 +2423,7 @@ text_sensor:
           then:
             - lvgl.label.update:
                 id: lbl_v_text_response
-                long_mode: SCROLL
+                long_mode: SCROLL_CIRCULAR
           else:
             - lvgl.label.update:
                 id: lbl_v_text_response
