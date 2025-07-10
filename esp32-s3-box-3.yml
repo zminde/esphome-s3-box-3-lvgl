@@ -639,7 +639,6 @@ media_player:
       - lambda: ESP_LOGD("media_player", "on_play");
       - wait_until:
           - lambda: return id(global_is_assisting) == false;
-      ###### Stop Voice Assistant - https://github.com/esphome/issues/issues/7199 ######
       - if:
           condition:
             - microphone.is_capturing:
@@ -652,7 +651,6 @@ media_player:
                   - wait_until:
                       - not:
                           voice_assistant.is_running:
-      ########################
     on_announcement:
       - lambda: ESP_LOGD("media_player", "on_announcement");
       - if:
@@ -935,7 +933,6 @@ script:
           condition:
             lambda: return !id(init_in_progress);
           then:
-            - script.execute: set_uimode
             - if:
                 condition:
                   wifi.connected:
@@ -956,6 +953,7 @@ script:
                         - lambda: |-
                             id(api_connection) = true;
                         - lvgl.widget.show: lbl_api
+                        - script.execute: set_uimode
                         - if:
                             condition:
                               not:
@@ -973,30 +971,18 @@ script:
                                   - lambda: |-
                                       return (id(voice_assistant_phase) == ${voice_assist_timer_finishing_phase_id});
                             then:
-                              - lvgl.page.show: idle_page
-                              - lvgl.animimg.stop:
-                                  id: listening_anim
-                              - lvgl.animimg.stop:
-                                  id: thinking_anim 
-                              - lvgl.animimg.stop:
-                                  id: replying_anim                          
+                              - lvgl.page.show: idle_page                       
                         - if:
                             condition:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_listening_phase_id});
                             then:
-                              - lvgl.animimg.start:
-                                  id: listening_anim
                               - lvgl.page.show: listening_page
                         - if:
                             condition:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_thinking_phase_id});
                             then:
-                              - lvgl.animimg.stop:
-                                  id: listening_anim
-                              - lvgl.animimg.start:
-                                  id: thinking_anim
                               - lvgl.page.show: thinking_page
                               - if:
                                   condition:
@@ -1010,10 +996,6 @@ script:
                               lambda: |-
                                 return (id(voice_assistant_phase) == ${voice_assist_replying_phase_id});
                             then:
-                              - lvgl.animimg.stop:
-                                  id: thinking_anim
-                              - lvgl.animimg.start:
-                                  id: replying_anim
                               - lvgl.page.show: replying_page
                               - if:
                                   condition:
@@ -1539,7 +1521,7 @@ script:
           then:
             - if:
                 condition: 
-                  lambda: return (id(uimode).state == "Default");
+                  lambda: return (id(uimode).state == "Default" || id(uimode).state.empty());
                 then:
                   - lvgl.style.update:
                       id: header_footer
@@ -1550,14 +1532,15 @@ script:
                       items:
                         bg_color: 0x185281
                         bg_grad_color: 0x00334d
-                  - lvgl.widget.hide: listening_anim
                   - lvgl.widget.show: listening
-                  - lvgl.widget.hide: thinking_anim
                   - lvgl.widget.show: thinking
-                  - lvgl.widget.hide: replying_anim
                   - lvgl.widget.show: replying
-                  - lvgl.widget.hide: error_anim
                   - lvgl.widget.show: error
+                else:
+                  - lvgl.widget.hide: listening
+                  - lvgl.widget.hide: thinking
+                  - lvgl.widget.hide: replying
+                  - lvgl.widget.hide: error
             - if:
                 condition: 
                   lambda: return (id(uimode).state == "HAL");
@@ -1572,16 +1555,48 @@ script:
                         bg_color: 0x1a1a1a
                         bg_grad_color: 0x000000	
                   - lvgl.widget.show: listening_anim
-                  - lvgl.widget.hide: listening
                   - lvgl.widget.show: thinking_anim
-                  - lvgl.widget.hide: thinking
                   - lvgl.widget.show: replying_anim
-                  - lvgl.widget.hide: replying
                   - lvgl.widget.show: error_anim
-                  - lvgl.widget.hide: error
+                else:
+                  - lvgl.widget.hide: listening_anim
+                  - lvgl.widget.hide: thinking_anim
+                  - lvgl.widget.hide: replying_anim
+                  - lvgl.widget.hide: error_anim
             - lambda: id(current_uimode) = id(uimode).state;
             - lvgl.widget.refresh:
-
+          else:
+            - if:
+                condition:
+                  lambda: |-
+                        return (id(voice_assistant_phase) == ${voice_assist_listening_phase_id} && id(uimode).state == "HAL");
+                then:
+                  - lvgl.animimg.start:
+                      id: listening_anim
+                else:
+                  - lvgl.animimg.stop:
+                      id: listening_anim
+            - if:
+                condition:
+                  lambda: |-
+                        return (id(voice_assistant_phase) == ${voice_assist_thinking_phase_id} && id(uimode).state == "HAL");
+                then:
+                  - lvgl.animimg.start:
+                      id: thinking_anim
+                else:
+                  - lvgl.animimg.stop:
+                      id: thinking_anim
+            - if:
+                condition:
+                  lambda: |-
+                        return (id(voice_assistant_phase) == ${voice_assist_replying_phase_id} && id(uimode).state == "HAL");
+                then:
+                  - lvgl.animimg.start:
+                      id: replying_anim
+                else:
+                  - lvgl.animimg.stop:
+                      id: replying_anim 
+                      
 switch:
   - platform: gpio
     name: Speaker Enable
@@ -2143,6 +2158,7 @@ globals:
     initial_value: ""
     
 image:
+#Default Images
   - file: ${error_illustration_file}
     id: error_img
     resize: 318x238
@@ -2183,6 +2199,7 @@ image:
     resize: 80x75
     type: RGB565
     transparency: alpha_channel
+# Animated Voice Assistant images
   - file: ${anim_listening1}
     id: anim_listening1
     resize: 318x238
@@ -2367,12 +2384,23 @@ text_sensor:
   - id: text_request
     platform: template
     on_value:
-      - lambda: |-
-          if(id(text_request).state.length()>32) {
-            std::string name = id(text_request).state.c_str();
-            std::string truncated = esphome::str_truncate(name.c_str(),31);
-            id(text_request).state = (truncated+"...").c_str();
-          }
+      - if:
+          condition:
+            - lambda: return (id(text_request).state.length()>30);
+          then:
+            - lvgl.label.update:
+                id: lbl_v_text_request1
+                long_mode: SCROLL
+            - lvgl.label.update:
+                id: lbl_v_text_request2
+                long_mode: SCROLL
+          else:
+            - lvgl.label.update:
+                id: lbl_v_text_request1
+                long_mode: DOT
+            - lvgl.label.update:
+                id: lbl_v_text_request2
+                long_mode: DOT
       - if:
           condition:
             lambda: return id(display_conversation).state;
@@ -2389,12 +2417,17 @@ text_sensor:
   - id: text_response
     platform: template
     on_value:
-      - lambda: |-
-          if(id(text_response).state.length()>32) {
-            std::string name = id(text_response).state.c_str();
-            std::string truncated = esphome::str_truncate(name.c_str(),31);
-            id(text_response).state = (truncated+"...").c_str();
-          }
+      - if:
+          condition:
+            - lambda: return (id(text_response).state.length()>30);
+          then:
+            - lvgl.label.update:
+                id: lbl_v_text_response
+                long_mode: SCROLL
+          else:
+            - lvgl.label.update:
+                id: lbl_v_text_response
+                long_mode: DOT
       - if:
           condition:
             lambda: return id(display_conversation).state;
@@ -4544,6 +4577,7 @@ lvgl:
               - animimg:
                   id: listening_anim
                   auto_start: false
+                  repeat_count: 200
                   hidden: true
                   align: CENTER
                   src: [ anim_listening1, anim_listening2 ]
@@ -4571,6 +4605,7 @@ lvgl:
               - animimg:
                   id: thinking_anim
                   auto_start: false
+                  repeat_count: 400
                   hidden: true
                   align: CENTER
                   src: [ anim_listening2, anim_thinking1, anim_thinking2 ]
@@ -4581,6 +4616,7 @@ lvgl:
                   text_align: left
                   text_color: 0x000000
                   text_font: my_font16
+                  long_mode: DOT
                   bg_color: 0xFFFFFF
                   bg_opa: COVER
                   pad_left: 5
@@ -4613,6 +4649,7 @@ lvgl:
               - animimg:
                   id: replying_anim
                   auto_start: false
+                  repeat_count: 1000
                   hidden: true
                   align: CENTER
                   src: [ anim_thinking2, anim_replying1, anim_replying2 ]
@@ -4623,6 +4660,7 @@ lvgl:
                   text_align: left
                   text_color: 0x000000
                   text_font: my_font16
+                  long_mode: DOT
                   bg_color: 0xFFFFFF
                   bg_opa: COVER
                   pad_left: 5
@@ -4638,6 +4676,7 @@ lvgl:
                   text_align: left
                   text_color: 0x000000
                   text_font: my_font16
+                  long_mode: DOT
                   bg_color: 0xFFFFFF
                   bg_opa: COVER
                   pad_left: 5
