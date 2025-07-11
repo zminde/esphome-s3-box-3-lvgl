@@ -2932,7 +2932,13 @@ lvgl:
   id: lvgl_display
   disp_bg_color: 0x000000
   pages:
-    - id: idle_page 
+    - id: idle_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -3057,6 +3063,12 @@ lvgl:
                           then:
                             lvgl.page.show: security_page
     - id: climate_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -3485,6 +3497,12 @@ lvgl:
                               text: "+"
                                      
     - id: lights_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -3688,6 +3706,12 @@ lvgl:
                               # entity_id: light.light6
 
     - id: controls_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -3855,6 +3879,12 @@ lvgl:
                                       # entity_id: button.dishwasher_stop ## Replace this with entity to stop dishwasher
 
     - id: media_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -4100,6 +4130,12 @@ lvgl:
                   y: -45
  
     - id: scenes_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -4205,6 +4241,12 @@ lvgl:
                                         # entity_id: media_player.tv2
 
     - id: security_page
+      on_swipe_left:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.next:
+      on_swipe_right:
+        - lambda: 'lv_indev_wait_release(lv_indev_get_act());'
+        - lvgl.page.previous:
       widgets:
         - obj:
             styles: page_content
@@ -6009,8 +6051,11 @@ lvgl:
         bg_color: 0x666666
         bg_grad_color: 0x00334d
       checked:
-        bg_color: 0x1d5f96
-        bg_grad_color: 0x03324A
+        #bg_color: 0x1d5f96
+        #bg_grad_color: 0x03324A
+        bg_color: 0x005782
+        bg_grad_color: 0x000000
+        bg_grad_dir: VER
         text_color: yellow
     buttonmatrix:
       bg_opa: TRANSP
