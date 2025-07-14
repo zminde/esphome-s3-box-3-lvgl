@@ -83,7 +83,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.08"
+    version: "2025.07.14"
 
 esp32:
   board: esp32s3box
@@ -1564,7 +1564,7 @@ script:
                       id: top_layer
                       items:
                         bg_color: 0x1a1a1a
-                        bg_grad_color: 0x000000	
+                        bg_grad_color: 0x000000
                   - lvgl.widget.show: listening_anim
                   - lvgl.widget.show: thinking_anim
                   - lvgl.widget.show: replying_anim
