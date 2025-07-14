@@ -1,6 +1,6 @@
 {
   "type": "micro",
-  "wake_word": "hey_luna",
+  "wake_word": "Hey Luna",
   "author": "Morbitangel",
   "website": "https://github.com/MasterPhooey/MicroWakeWord-Trainer-Docker",
   "model": "hey_luna.tflite",
