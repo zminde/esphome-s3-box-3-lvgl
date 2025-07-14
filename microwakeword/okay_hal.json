@@ -1,6 +1,6 @@
 {
   "type": "micro",
-  "wake_word": "okay_hal",
+  "wake_word": "Okay Hal",
   "author": "master phooey",
   "website": "https://github.com/MasterPhooey/MicroWakeWord-Trainer-Docker",
   "model": "okay_hal.tflite",
