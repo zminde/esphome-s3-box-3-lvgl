@@ -7,7 +7,7 @@ This firmware provides the S3 box 3 with a template for voice assistant, timers,
 
 A UI Mode feature provides the ability to switch from the standard voice assistant UI to a HAL 9000 animated UI. This can easily be extended to add other VA UI experiences.
 
-The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including Okay computer, hey home assistant and okay hal.
+The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including Okay computer, hey home assistant, okay hal and hey luna.
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
