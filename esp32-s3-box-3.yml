@@ -242,9 +242,11 @@ light:
     restore_mode: ALWAYS_ON
     default_transition_length: 50ms
     on_turn_on:
-      - lvgl.resume
+      - lvgl.resume:
+      - lvgl.widget.redraw:
     on_turn_off:
-      - lvgl.pause
+      - lvgl.pause:
+          show_snow: true
 
 sensor:
   - platform: aht10
