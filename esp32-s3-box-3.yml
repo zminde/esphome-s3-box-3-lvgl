@@ -709,6 +709,8 @@ micro_wake_word:
       id: hey_home_assistant
     - model: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/microwakeword/okay_hal.json
       id: okay_hal
+    - model: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/microwakeword/hey_luna.json
+      id: hey_luna
   on_wake_word_detected:
     - lambda: id(global_is_assisting) = true;
     - delay: 50ms
@@ -1995,6 +1997,7 @@ select:
           id(okay_computer).set_probability_cutoff(247);
           id(hey_home_assistant).set_probability_cutoff(247);
           id(okay_hal).set_probability_cutoff(247);
+          id(hey_luna).set_probability_cutoff(247);
         } else if (x == "Moderately sensitive") {
           id(okay_nabu).set_probability_cutoff(176);    // 0.69 -> 0.376 FAPH on DipCo
           id(hey_jarvis).set_probability_cutoff(235);   // 0.92 -> 0.939 FAPH on DipCo
@@ -2003,6 +2006,7 @@ select:
           id(okay_computer).set_probability_cutoff(235);
           id(hey_home_assistant).set_probability_cutoff(235);
           id(okay_hal).set_probability_cutoff(235);
+          id(hey_luna).set_probability_cutoff(235);
         } else if (x == "Very sensitive") {
           id(okay_nabu).set_probability_cutoff(143);    // 0.56 -> 0.751 FAPH on DipCo
           id(hey_jarvis).set_probability_cutoff(212);   // 0.83 -> 1.502 FAPH on DipCo
@@ -2011,6 +2015,7 @@ select:
           id(okay_computer).set_probability_cutoff(212);
           id(hey_home_assistant).set_probability_cutoff(212);
           id(okay_hal).set_probability_cutoff(212);
+          id(hey_luna).set_probability_cutoff(212);
         }
 
   - platform: lvgl
