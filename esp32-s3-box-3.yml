@@ -86,7 +86,6 @@ esphome:
           then:
             - lambda: id(init_in_progress) = false;
             - script.execute: draw_display
-      - script.execute: saver_enabled
 
   project:
     name: "Christian.s3box3"
@@ -114,7 +113,6 @@ api:
   on_client_connected:
     - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
     - script.execute: draw_display
-    - script.execute: saver_enabled
   on_client_disconnected:
     - script.execute: draw_display
 
@@ -801,7 +799,6 @@ voice_assistant:
         id: text_response
         state: "..."
     - script.execute: draw_display
-    - script.execute: saver_enabled
   on_stt_vad_end:
     - lambda: ESP_LOGD("voice_assistant", "on_stt_vad_end");
     - lambda: id(voice_assistant_phase) = ${voice_assist_thinking_phase_id};
@@ -955,6 +952,7 @@ script:
           condition:
             lambda: return !id(init_in_progress);
           then:
+            - script.execute: saver_enabled
             - if:
                 condition:
                   wifi.connected:
@@ -1285,7 +1283,6 @@ script:
               - lambda: return (id(time_remaining_0).state == "0:01:00");
               - lambda: return (id(time_remaining_0).state == "0:05:00");
               - lambda: return (id(time_remaining_0).state == "0:10:00");
-      - script.execute: saver_enabled
       - lambda: id(voice_assistant_phase) = ${voice_assist_timer_finishing_phase_id};
       - script.execute: draw_display
     mode: parallel
@@ -1472,7 +1469,7 @@ script:
       - delay: 10s
       - lambda: id(previous_notification_text) = "";
       - lvgl.page.show: idle_page
-      - script.execute: saver_enabled
+      - script.execute: draw_display
 
   - id: time_update
     then:
@@ -3061,6 +3058,10 @@ key_collector:
 lvgl:
   id: lvgl_display
   disp_bg_color: 0x000000
+  on_idle:
+    - timeout: 1s
+      then:
+        - script.execute: saver_enabled
   pages:
     - id: idle_page
       on_swipe_left:
@@ -6382,10 +6383,11 @@ binary_sensor:
       if:
         condition:
           and:
+            - lambda: "return x;"
             - switch.is_on: s_saver
             - switch.is_on: s_saver_presc
-            - lvgl.page.is_showing: saver_page
         then:
+          - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
           - lvgl.page.show: idle_page
           - script.execute: saver_enabled
 
