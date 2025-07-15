@@ -19,6 +19,13 @@ substitutions:
   anim_replying1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_1.png #replying
   anim_replying2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/replying_2.png #replying
   anim_error1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/HAL/error_1.png #error
+  anim2_listening: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_grey.jpg
+  anim2_thinking: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_white.jpg
+  anim2_replying1: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_colors_1.jpg
+  anim2_replying2: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_colors_2.jpg
+  anim2_replying3: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_colors_3.jpg
+  anim2_replying4: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_colors_4.jpg
+  anim2_error: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/Home/g_orange.jpg
   
   loading_illustration_background_color: "000000"
   idle_illustration_background_color: "000000"
@@ -83,7 +90,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.14"
+    version: "2025.07.15"
 
 esp32:
   board: esp32s3box
@@ -1578,6 +1585,28 @@ script:
                   - lvgl.widget.hide: thinking_anim
                   - lvgl.widget.hide: replying_anim
                   - lvgl.widget.hide: error_anim
+            - if:
+                condition: 
+                  lambda: return (id(uimode).state == "Home");
+                then:
+                  - lvgl.style.update:
+                      id: header_footer
+                      bg_color: 0x595959
+                      bg_grad_color: 0x404040
+                  - lvgl.buttonmatrix.update:
+                      id: top_layer
+                      items:
+                        bg_color: 0x595959
+                        bg_grad_color: 0x404040
+                  - lvgl.widget.show: listening_anim2
+                  - lvgl.widget.show: thinking_anim2
+                  - lvgl.widget.show: replying_anim2
+                  - lvgl.widget.show: error_anim2
+                else:
+                  - lvgl.widget.hide: listening_anim2
+                  - lvgl.widget.hide: thinking_anim2
+                  - lvgl.widget.hide: replying_anim2
+                  - lvgl.widget.hide: error_anim2
             - lambda: id(current_uimode) = id(uimode).state;
             - lvgl.widget.refresh:
           else:
@@ -1610,7 +1639,17 @@ script:
                       id: replying_anim
                 else:
                   - lvgl.animimg.stop:
-                      id: replying_anim 
+                      id: replying_anim
+            - if:
+                condition:
+                  lambda: |-
+                        return (id(voice_assistant_phase) == ${voice_assist_replying_phase_id} && id(uimode).state == "Home");
+                then:
+                  - lvgl.animimg.start:
+                      id: replying_anim2
+                else:
+                  - lvgl.animimg.stop:
+                      id: replying_anim2
                       
 switch:
   - platform: gpio
@@ -2291,6 +2330,41 @@ image:
     resize: 318x238
     type: RGB565
     transparency: alpha_channel
+  - file: ${anim2_listening}
+    id: anim2_listening
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_thinking}
+    id: anim2_thinking
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_replying1}
+    id: anim2_replying1
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_replying2}
+    id: anim2_replying2
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_replying3}
+    id: anim2_replying3
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_replying4}
+    id: anim2_replying4
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel
+  - file: ${anim2_error}
+    id: anim2_error
+    resize: 318x238
+    type: RGB565
+    transparency: alpha_channel  
     
 font:
   - file: ${font_file}
@@ -4680,6 +4754,11 @@ lvgl:
                   align: CENTER
                   src: [ anim_listening1, anim_listening2 ]
                   duration: 750ms
+              - image:
+                  id: listening_anim2
+                  hidden: true
+                  align: CENTER
+                  src: anim2_listening
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -4708,6 +4787,11 @@ lvgl:
                   align: CENTER
                   src: [ anim_listening2, anim_thinking1, anim_thinking2 ]
                   duration: 500ms
+              - image:
+                  id: thinking_anim2
+                  hidden: true
+                  align: CENTER
+                  src: anim2_thinking
               - label: 
                   id: lbl_v_text_request1
                   align: TOP_MID
@@ -4752,6 +4836,14 @@ lvgl:
                   align: CENTER
                   src: [ anim_thinking2, anim_replying1, anim_replying2 ]
                   duration: 300ms
+              - animimg:
+                  id: replying_anim2
+                  auto_start: false
+                  repeat_count: 1000
+                  hidden: true
+                  align: CENTER
+                  src: [ anim2_thinking, anim2_replying1, anim2_replying2, anim2_replying3, anim2_replying4, anim2_replying4 ]
+                  duration: 750ms
               - label: 
                   id: lbl_v_text_request2
                   align: TOP_MID
@@ -4809,6 +4901,11 @@ lvgl:
                   hidden: true
                   align: CENTER
                   src: anim_error1
+              - image:
+                  id: error_anim2
+                  hidden: true
+                  align: CENTER
+                  src: anim2_error
               - obj:
                   align: TOP_MID
                   styles: header_footer 
@@ -5848,6 +5945,7 @@ lvgl:
                         options:
                           - Default
                           - HAL
+                          - Home
                         dropdown_list:
                           selected:
                             checked:
