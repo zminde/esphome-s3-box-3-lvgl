@@ -5,7 +5,7 @@ All credit and inspiration for the original UI goes to https://github.com/BigBob
 
 This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
 
-A UI Mode feature provides the ability to switch from the standard voice assistant UI to a HAL 9000 animated UI. This can easily be extended to add other VA UI experiences.
+A UI Mode feature provides the ability to switch from the standard voice assistant UI to a HAL 9000 animated voice assistant or a Home animated voice assistant. This can easily be extended to add other VA UI experiences.
 
 The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including Okay computer, hey home assistant, okay hal and hey luna.
 
@@ -27,7 +27,7 @@ Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en) wi
 
 The minimum supported ESPHome version is 2025.6.0.
 
-Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.6.3.
+Last tested on Home Assistant 2025.6.3 and ESPHome Version 2025.7.1.
 
 # Loading
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
