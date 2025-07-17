@@ -252,6 +252,12 @@ light:
     on_turn_off:
       - lvgl.pause:
           show_snow: true
+      - delay: 60s
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.pause:
+                show_snow: false
 
 sensor:
   - platform: aht10
