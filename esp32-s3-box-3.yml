@@ -1188,7 +1188,10 @@ script:
     then:
       - if:
           condition:
-            switch.is_on: s_saver
+            and:
+              - switch.is_on: s_saver
+              - not:
+                  lvgl.page.is_showing: saver_page
           then:
             - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
             - delay: !lambda return id(s_saver_delay).state * 1000;
@@ -1196,7 +1199,9 @@ script:
             - lvgl.page.show: saver_page
       - if:
           condition:
-            - switch.is_on: s_saver_mode
+            and:
+              - switch.is_on: s_saver_mode
+              - lvgl.page.is_showing: saver_page
           then:
             - delay: !lambda return id(s_saver_blank_delay).state * 1000;
             - light.turn_off: led
@@ -2037,7 +2042,7 @@ select:
           id(okay_nabu).set_probability_cutoff(217);    // 0.85 -> 0.000 FAPH on DipCo (Manifest's default)
           id(hey_jarvis).set_probability_cutoff(247);   // 0.97 -> 0.563 FAPH on DipCo (Manifest's default)
           id(hey_mycroft).set_probability_cutoff(253);  // 0.99 -> 0.567 FAPH on DipCo
-          id(alexa).set_probability_cutoff(232);
+          id(alexa).set_probability_cutoff(247);  // 0.97
           id(okay_computer).set_probability_cutoff(247);
           id(hey_home_assistant).set_probability_cutoff(247);
           id(okay_hal).set_probability_cutoff(247);
@@ -2046,7 +2051,7 @@ select:
           id(okay_nabu).set_probability_cutoff(176);    // 0.69 -> 0.376 FAPH on DipCo
           id(hey_jarvis).set_probability_cutoff(235);   // 0.92 -> 0.939 FAPH on DipCo
           id(hey_mycroft).set_probability_cutoff(242);  // 0.95 -> 1.502 FAPH on DipCo (Manifest's default)
-          id(alexa).set_probability_cutoff(191);
+          id(alexa).set_probability_cutoff(235); // 0.92
           id(okay_computer).set_probability_cutoff(235);
           id(hey_home_assistant).set_probability_cutoff(235);
           id(okay_hal).set_probability_cutoff(235);
@@ -2055,7 +2060,7 @@ select:
           id(okay_nabu).set_probability_cutoff(143);    // 0.56 -> 0.751 FAPH on DipCo
           id(hey_jarvis).set_probability_cutoff(212);   // 0.83 -> 1.502 FAPH on DipCo
           id(hey_mycroft).set_probability_cutoff(237);  // 0.93 -> 1.878 FAPH on DipCo
-          id(alexa).set_probability_cutoff(158);
+          id(alexa).set_probability_cutoff(217); // 0.85
           id(okay_computer).set_probability_cutoff(212);
           id(hey_home_assistant).set_probability_cutoff(212);
           id(okay_hal).set_probability_cutoff(212);
@@ -6382,7 +6387,7 @@ binary_sensor:
     name: "Presence detect"
     disabled_by_default: false
     device_class: "occupancy"
-    publish_initial_state: true
+    trigger_on_initial_state: true
     filters:
       - delayed_off: !lambda return id(radar_delayed_off).state * 1000;
     on_state:
@@ -6401,7 +6406,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light1_item
     # entity_id: switch.light1 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
@@ -6424,7 +6429,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light2_item
     # entity_id: switch.light2 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
@@ -6447,7 +6452,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light3_item
     # entity_id: light.light3 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
@@ -6470,7 +6475,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light4_item
     # entity_id: switch.light4 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
@@ -6493,7 +6498,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light5_item
     # entity_id: switch.light5 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
@@ -6516,7 +6521,7 @@ binary_sensor:
   # - platform: homeassistant
     # id: light6_item
     # entity_id: light.light6 ## replace with light/switch entity to show status
-    # publish_initial_state: true
+    # trigger_on_initial_state: true
     # internal: true
     # on_state:
       # then:
