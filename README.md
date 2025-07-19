@@ -24,6 +24,7 @@ Key Components:
 
 # Requirements
 Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en).
+
 Sensor dock & battery are optional to use radar/presence, battery level and temperature/humidity functionality.
 
 The minimum supported ESPHome version is 2025.6.0.
@@ -109,26 +110,27 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 
 **Voice Settings**
 
-![voice_settings](https://github.com/user-attachments/assets/13930457-d662-438e-9dca-809a4c969fe4)
+![voice_settings](https://github.com/user-attachments/assets/00cc9687-eafa-4b36-a2cc-2d3736bf3ed7)
 - WakeWord Location can be changed from On Device to Home Assistant
 - Mute Responses will mute any response
 - Wake Sound will play a wake sound when voice assistant wakes
-- Show Conversation will display an excerpt of the conversation on the voice assistant screens.
+- Show Responses will display the conversation on the voice assistant screens.
 
 **Screensaver Settings**
 
-![screensaver](https://github.com/user-attachments/assets/56f8845c-0b13-426c-9974-813b05826f19)
-- Timeout Settings opens next page
-- Enable Screensaver turns on screensaver at time specified
+![screensaver_settings](https://github.com/user-attachments/assets/e927612b-085f-46b5-8485-295f39fc37e4)
+- Screensaver turns on screensaver after the specified delay
+- Settings opens next page to adjust timeouts
 - Wake on Presence wakes the device when the radar detects motion
-- Timeout to Blank turns off the screen at time specified
+- Turn Screen Off turns off the screen after the specified delay
 
 **Screensaver Timeout Settings**
 
-![screensaver timeouts](https://github.com/user-attachments/assets/f2e838ca-03c5-4755-81c4-c77f1ffa28e2)
+![screensaver_timeout_settings](https://github.com/user-attachments/assets/c67831bf-be22-426d-b75a-d9858188700b)
 - Delay Secs is the time until the screensaver starts
-- Dim Brightness is the brightness level to use when the screensaver is enabled
 - Screen Off Delay is the time until the screen turns off.
+- The brightness slider allows setting the screensaver brightness.
+
 
 **Info**
 
@@ -136,9 +138,9 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 
 **Device Settings**
 
-![settings_device](https://github.com/user-attachments/assets/bb127ed8-8100-4d58-a6f8-a4563086bda5)
-- Ext Media Player outputs audio to the external audio player configured in the substitions section.
-- Notification sound triggers a sound when a text notification is sent to the device. This is different to the wake sound.
+![device_settings](https://github.com/user-attachments/assets/180d84f0-be92-4092-8374-4fe20467af2b)
+- External Audio outputs audio to the external audio player configured in the substitions section.
+- Notify sound triggers a sound when a text notification is sent to the device. This is different to the wake sound.
 - Brightness slider controls screen brightness
 
 **UI Settings**
