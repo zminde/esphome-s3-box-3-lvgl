@@ -23,7 +23,8 @@ Key Components:
 - LVGL: https://esphome.io/components/lvgl/
 
 # Requirements
-Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en) with sensor dock and battery.
+Requires [S3-Box-3](https://www.espressif.com/en/dev-board/esp32-s3-box-3-en).
+Sensor dock & battery are optional to use radar/presence, battery level and temperature/humidity functionality.
 
 The minimum supported ESPHome version is 2025.6.0.
 
