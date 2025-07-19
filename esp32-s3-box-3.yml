@@ -89,7 +89,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.15"
+    version: "2025.07.20"
 
 esp32:
   board: esp32s3box
@@ -1690,13 +1690,13 @@ switch:
     entity_category: config
     icon: 'mdi:chat'
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_display_conversation
+      - lvgl.checkbox.update:
+          id: chk_display_conversation
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_display_conversation
+      - lvgl.checkbox.update:
+          id: chk_display_conversation
           state:
             checked: false
 
@@ -1716,8 +1716,8 @@ switch:
       - lvgl.widget.hide: bar_volume
       - lvgl.widget.show: obj_ext_media
       - lvgl.widget.show: lbl_ext_media_playing
-      - lvgl.widget.update:
-          id: switch_output_audio
+      - lvgl.checkbox.update:
+          id: chk_output_audio
           state:
             checked: true
     on_turn_off:
@@ -1729,8 +1729,8 @@ switch:
       - lvgl.widget.show: bar_volume
       - lvgl.widget.hide: obj_ext_media
       - lvgl.widget.hide: lbl_ext_media_playing
-      - lvgl.widget.update:
-          id: switch_output_audio
+      - lvgl.checkbox.update:
+          id: chk_output_audio
           state:
             checked: false
  
@@ -1813,13 +1813,13 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     entity_category: config
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_screensaver
+      - lvgl.checkbox.update:
+          id: chk_screensaver
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_screensaver
+      - lvgl.checkbox.update:
+          id: chk_screensaver
           state:
             checked: false
 
@@ -1831,13 +1831,13 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     entity_category: config
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_timeout_blank
+      - lvgl.checkbox.update:
+          id: chk_timeout_blank
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_timeout_blank
+      - lvgl.checkbox.update:
+          id: chk_timeout_blank
           state:
             checked: false
 
@@ -1849,13 +1849,13 @@ switch:
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_wake_presence
+      - lvgl.checkbox.update:
+          id: chk_wake_presence
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_wake_presence
+      - lvgl.checkbox.update:
+          id: chk_wake_presence
           state:
             checked: false
 
@@ -1901,13 +1901,13 @@ switch:
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_wake_sound
+      - lvgl.checkbox.update:
+          id: chk_wake_sound
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_wake_sound
+      - lvgl.checkbox.update:
+          id: chk_wake_sound
           state:
             checked: false
 
@@ -1919,13 +1919,13 @@ switch:
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF   
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_notify_sound
+      - lvgl.checkbox.update:
+          id: chk_notify_sound
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_notify_sound
+      - lvgl.checkbox.update:
+          id: chk_notify_sound
           state:
             checked: false
             
@@ -1937,13 +1937,13 @@ switch:
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
-      - lvgl.widget.update:
-          id: switch_mute_reponse
+      - lvgl.checkbox.update:
+          id: chk_mute_reponse
           state:
             checked: true
     turn_off_action:
-      - lvgl.widget.update:
-          id: switch_mute_reponse
+      - lvgl.checkbox.update:
+          id: chk_mute_reponse
           state:
             checked: false
 
@@ -2177,8 +2177,8 @@ number:
     on_value:
       - component.update: s_saver_brightness
       - script.execute: saver_enabled
-      - lvgl.spinbox.update:
-          id: spinbox_brightness
+      - lvgl.slider.update:
+          id: slider_dimbrightness
           value: !lambda return x;
 
   - id: s_default_brightness
@@ -5292,59 +5292,41 @@ lvgl:
                                     id: wake_word_engine_location
                                     index: 1
                         
-                    - label:
+                    - checkbox:
+                        id: chk_mute_reponse
                         text: "Mute Responses"
-                        align: CENTER
-                        text_align: CENTER
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_mute_reponse
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 1
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: mute_response_switch
-                    - label:
+                    - checkbox:
+                        id: chk_wake_sound
                         text: "Wake Sound"
-                        align: CENTER
-                        text_align: CENTER
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 2
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_wake_sound
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: wake_sound
-                    - label:
-                        text: "Show Conversation"
-                        align: CENTER
-                        text_align: CENTER
+                    - checkbox:
+                        id: chk_display_conversation
+                        text: "Show Responses"
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 3
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_display_conversation
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 3
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: display_conversation
                         
     - id: ss_set_page
@@ -5376,15 +5358,18 @@ lvgl:
                     grid_columns: [FR(1), FR(1)]
                     grid_rows: [FR(25), FR(25), FR(25), FR(25)]
                   widgets:
-                    - label:
-                        text: "Timeout Settings"
-                        align: CENTER
-                        text_align: CENTER
+                    - checkbox:
+                        id: chk_screensaver
+                        text: "Screensaver"
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 0
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
+                        on_change:
+                          switch.toggle: s_saver
                     - button:
                         id: but_ss_set_1
                         bg_color: 0x2F8CD8
@@ -5401,63 +5386,32 @@ lvgl:
                           - label:
                               id: ico_ss_set_1
                               align: CENTER
-                              text_font: icon_font_20
-                              text: "\U000F08D6"
+                              text: "Settings"
                         on_press:
                           - lvgl.page.show: timeout_settings_page
-                    - label:
-                        text: "Enable Screensaver"
-                        align: CENTER
-                        text_align: CENTER
-                        text_color: 0xFFFFFF
-                        grid_cell_column_pos: 0
-                        grid_cell_row_pos: 1
-                        grid_cell_x_align: END
-                        grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_screensaver
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 1
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
-                          switch.toggle: s_saver
-                    - label:
+                    - checkbox:
+                        id: chk_wake_presence
                         text: "Wake On Presence"
-                        align: CENTER
-                        text_align: CENTER
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: END
+                        grid_cell_row_pos: 1
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_wake_presence
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: s_saver_presc
-                    - label:
-                        text: "Timeout to blank"
-                        align: CENTER
-                        text_align: CENTER
+                    - checkbox:
+                        id: chk_timeout_blank
+                        text: "Turn Screen Off"
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
-                        grid_cell_row_pos: 3
-                        grid_cell_x_align: END
+                        grid_cell_row_pos: 2
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_timeout_blank
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 3
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: s_saver_mode
 
     - id: timeout_settings_page
@@ -5550,7 +5504,7 @@ lvgl:
                                  - label:
                                      text: "+" 
                     - label:
-                        text: "Dim Brightness"
+                        text: "Screen Off Delay"
                         align: CENTER
                         text_align: CENTER
                         text_color: 0xFFFFFF
@@ -5562,66 +5516,6 @@ lvgl:
                          align: CENTER
                          grid_cell_column_pos: 1
                          grid_cell_row_pos: 1
-                         grid_cell_x_align: STRETCH
-                         grid_cell_y_align: STRETCH
-                         bg_color: 0x000000
-                         bg_opa: TRANSP
-                         border_opa: TRANSP
-                         width: 100%
-                         height: 100%
-                         pad_all: 0
-                         layout:
-                           type: FLEX
-                           flex_flow: ROW
-                           flex_align_cross: CENTER
-                         widgets:
-                           - button:
-                               id: brightness_spin_down
-                               on_click:
-                                 - lvgl.spinbox.decrement: spinbox_brightness
-                               widgets:
-                                 - label:
-                                      text: "-"
-                           - spinbox:
-                               id: spinbox_brightness
-                               align: CENTER
-                               text_align: CENTER
-                               width: 50
-                               range_from: 20
-                               range_to: 100
-                               step: 5
-                               rollover: false
-                               digits: 3
-                               decimal_places: 0
-                               on_value:
-                                 then:
-                                   if: 
-                                     condition:
-                                       lambda: return (x != id(s_saver_brightness).state);
-                                     then:
-                                       - number.set:
-                                           id: s_saver_brightness
-                                           value: !lambda return x;
-                           - button:
-                               id: brightness_spin_up
-                               on_click:
-                                 - lvgl.spinbox.increment: spinbox_brightness
-                               widgets:
-                                 - label:
-                                     text: "+"
-                    - label:
-                        text: "Screen Off Delay"
-                        align: CENTER
-                        text_align: CENTER
-                        text_color: 0xFFFFFF
-                        grid_cell_column_pos: 0
-                        grid_cell_row_pos: 2
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                    - obj:
-                         align: CENTER
-                         grid_cell_column_pos: 0
-                         grid_cell_row_pos: 3
                          grid_cell_x_align: STRETCH
                          grid_cell_y_align: STRETCH
                          bg_color: 0x000000
@@ -5669,6 +5563,47 @@ lvgl:
                                widgets:
                                  - label:
                                      text: "+"
+              - obj:
+                   align: CENTER
+                   y: 75
+                   bg_color: 0x000000
+                   bg_opa: TRANSP
+                   border_opa: TRANSP
+                   width: 90%
+                   height: 50
+                   pad_all: 0
+                   layout:
+                     type: FLEX
+                     flex_flow: ROW
+                     flex_align_cross: CENTER
+                   widgets:
+                    - label:
+                        id: ico_dimbrightness_1
+                        align: CENTER
+                        text_font: icon_font_20
+                        text_color: yellow
+                        text: "\U000F00DF"
+                    - slider:
+                        id: slider_dimbrightness
+                        value: 100
+                        min_value: 20
+                        max_value: 100
+                        width: 230
+                        height: 15
+                        indicator:
+                          bg_color: yellow
+                          bg_grad_color: 0xcccc00
+                        knob:
+                          bg_color: yellow
+                          bg_grad_color: 0xe6e600
+                        on_value:
+                          - if:
+                              condition:
+                                lambda: return (x != id(s_saver_brightness).state);
+                              then:
+                                - number.set:
+                                    id: s_saver_brightness
+                                    value: !lambda return x;
                                      
     - id: info_page
       skip: true
@@ -5774,41 +5709,29 @@ lvgl:
                     grid_columns: [FR(1), FR(1)]
                     grid_rows: [FR(25), FR(25), FR(25), FR(25)]
                   widgets:
-                    - label:
-                        text: "Ext Media Player"
-                        align: CENTER
-                        text_align: CENTER
+                    - checkbox:
+                        id: chk_output_audio
+                        text: "External Audio"
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 0
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_output_audio
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 0
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: output_audio
-                    - label:
-                        text: "Notification Sound"
-                        align: CENTER
-                        text_align: CENTER
+                    - checkbox:
+                        id: chk_notify_sound
+                        text: "Notify Sound"
+                        align: LEFT_MID
+                        text_align: LEFT
                         text_color: 0xFFFFFF
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
-                        grid_cell_x_align: END
+                        grid_cell_x_align: START
                         grid_cell_y_align: CENTER
-                    - switch:
-                        id: switch_notify_sound
-                        align: CENTER
-                        grid_cell_column_pos: 1
-                        grid_cell_row_pos: 1
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        on_click:
+                        on_change:
                           switch.toggle: notify_sound
               - obj:
                    align: CENTER
