@@ -5,9 +5,9 @@ All credit and inspiration for the original UI goes to https://github.com/BigBob
 
 This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
 
-A UI Mode feature provides the ability to switch from the standard voice assistant UI to a HAL 9000 animated voice assistant or a Home animated voice assistant. This can easily be extended to add other VA UI experiences.
+A UI Mode feature provides the ability to switch the voice assistant user experience from the standard voice assistant UI to a HAL 9000 animated UI or a Home animated UI. This can easily be extended to add other VA UI experiences.
 
-The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including Okay computer, hey home assistant, okay hal and hey luna.
+The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including okay computer, hey home assistant, okay hal and hey luna.
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
@@ -35,10 +35,13 @@ Last tested on Home Assistant 2025.7.1 and ESPHome Version 2025.7.2.
 
 # Home
 ![home](https://github.com/user-attachments/assets/c203e51d-90fa-4515-ab5f-3832160a6f21)
-- The microphone indicator is a mute switch
-- The alarm status indicator launches the security page
-- The wifi status indicator launches the wifi page
 - A timer status indicator will appear while a timer is running and will launch the time remaining page
+- The alarm status indicator shows current alarm status and launches the security page
+- The microphone indicator is a mute switch
+- The home assistant indicator indicates if the API is connected
+- The wifi status indicator indicates if the WIFI is connected and launches the wifi page
+- The battery indicator shows battery charge level or shows a plug indicator if using direct power
+
 - The red circle button on the device will return to the home page, stop a ringing timer, stop the voice assistant and stop any media.
 - The top left button on the device will switch from Home page to screensaver, stop a ringing timer, or a long 10s press will perform a factory reset.
 - The bottom left button on the device will reboot the device. 
@@ -46,28 +49,26 @@ Last tested on Home Assistant 2025.7.1 and ESPHome Version 2025.7.2.
 # Voice Assistant
 ![voice](https://github.com/user-attachments/assets/8c36d316-00ce-40dd-b0ed-fcafdacbfcda)
 
-Voice Timer Started
+**Voice Timer Started**
 
 ![voice_timer](https://github.com/user-attachments/assets/51b9e7ec-b701-449e-9680-143d9a2e822d)
 
-Voice Assistant in HAL UI Mode
+**Voice Assistant in HAL UI Mode**
 
 https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
-- When enabled this UI replaces the above standard Voice Assistant screens
 
-
-Time Remaining
+**Time Remaining**
 
 ![timer_remaining](https://github.com/user-attachments/assets/347f669a-3fff-4e83-b83f-a98d6d2b5891)
 
-Timer Finished
+**Timer Finished**
 
 ![timer_finished](https://github.com/user-attachments/assets/9937af57-622a-445f-8673-225e46f03e45)
 
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
 
-Air Conditioner
+**Air Conditioner**
 
 ![airconditioner](https://github.com/user-attachments/assets/5669463c-9815-49a9-aed5-636c6465e256)
 
@@ -78,13 +79,13 @@ Air Conditioner
 ![controls](https://github.com/user-attachments/assets/9b612a6d-4c20-4df4-babb-dce395eaa85f)
 
 # Media
-Internal Audio
+**Internal Audio**
 
 ![media](https://github.com/user-attachments/assets/8429813a-2a50-4d6e-b839-2099bf9da5d4)
 ![media_mute](https://github.com/user-attachments/assets/e01a7fb4-7653-4dcc-9dee-16ae9e02b21e)
 - The volume controls on the media page control the volume of the S3 box including the Voice Assistant.
 
-External Audio
+**External Audio**
 
 ![media_exterrnal](https://github.com/user-attachments/assets/cc9af414-de2a-4832-8bc7-78d8c03b7771)
 
@@ -94,18 +95,19 @@ External Audio
 # Security
 ![security](https://github.com/user-attachments/assets/445e7b62-2109-4f29-89e4-6a72aa173744)
 
-Keypad - Pin code is required for alarm deactivation or changing modes, but not activation. 
+- Keypad - Pin code is required for alarm deactivation or changing modes, but not activation. 
 
 ![security_keypad](https://github.com/user-attachments/assets/e4230884-b372-48e3-96ac-6c31571d2bcd)
 
 # Screensaver
-![screensaver](https://github.com/user-attachments/assets/cfd4a9a8-a897-48be-923c-ae969e15e118)
-![screensaver_digital](https://github.com/user-attachments/assets/e4175cca-149b-4f56-bf76-430edc172a47)
+![analog_screensaver](https://github.com/user-attachments/assets/18a93b15-42e7-4121-88f1-f27fefd607e4)
+![digital_screensaver](https://github.com/user-attachments/assets/aa19666d-d21b-4a8c-8323-a601c1fd1ee9)
+- Temperature and Humidity will not be shown if a sensor dock is not connected.
 
 # Settings
 ![settings](https://github.com/user-attachments/assets/9f51c38d-4a3f-450a-9771-42b6d3ad4c6e)
 
-Voice Settings
+**Voice Settings**
 
 ![voice_settings](https://github.com/user-attachments/assets/13930457-d662-438e-9dca-809a4c969fe4)
 - WakeWord Location can be changed from On Device to Home Assistant
@@ -113,7 +115,7 @@ Voice Settings
 - Wake Sound will play a wake sound when voice assistant wakes
 - Show Conversation will display an excerpt of the conversation on the voice assistant screens.
 
-Screensaver Settings
+**Screensaver Settings**
 
 ![screensaver](https://github.com/user-attachments/assets/56f8845c-0b13-426c-9974-813b05826f19)
 - Timeout Settings opens next page
@@ -121,25 +123,25 @@ Screensaver Settings
 - Wake on Presence wakes the device when the radar detects motion
 - Timeout to Blank turns off the screen at time specified
 
-Screensaver Timeout Settings
+**Screensaver Timeout Settings**
 
 ![screensaver timeouts](https://github.com/user-attachments/assets/f2e838ca-03c5-4755-81c4-c77f1ffa28e2)
 - Delay Secs is the time until the screensaver starts
 - Dim Brightness is the brightness level to use when the screensaver is enabled
 - Screen Off Delay is the time until the screen turns off.
 
-Info
+**Info**
 
 ![settings_info](https://github.com/user-attachments/assets/39b2682f-fff6-46a9-a8d3-f61043336ae7)
 
-Device Settings
+**Device Settings**
 
 ![settings_device](https://github.com/user-attachments/assets/bb127ed8-8100-4d58-a6f8-a4563086bda5)
 - Ext Media Player outputs audio to the external audio player configured in the substitions section.
 - Notification sound triggers a sound when a text notification is sent to the device. This is different to the wake sound.
 - Brightness slider controls screen brightness
 
-UI Settings
+**UI Settings**
 
 ![uisettings](https://github.com/user-attachments/assets/dfa35db8-f2c6-49d7-8f5f-d13f26713a55)
 - Time Format provides 12 or 24 HR time shown in all places
