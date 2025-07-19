@@ -214,6 +214,12 @@ interval:
             char buf[10];
             sprintf(buf, "%.1f%s", id(display_temp), (id(temp_unit).state == "Fahrenheit" ? "°F" : "°C"));
             return buf;
+      - lvgl.label.update:
+          id: humidity_label
+          text: !lambda |-
+            char buf[10];
+            sprintf(buf, "%.1f%s", id(s3humidity).state, "%");
+            return buf;
 
 button:
   - platform: factory_reset
@@ -268,8 +274,13 @@ sensor:
       #filters:
       #  offset: -3
       id: s3temp
+      on_value:
+        - lvgl.widget.show: temp_label
     humidity:
       name: "S3 Humidity"
+      id: s3humidity
+      on_value:
+        - lvgl.widget.show: humidity_label
     update_interval: 60s
 
   - platform: adc
@@ -333,7 +344,7 @@ sensor:
             } else if (x > 0) {
                 icon = "\U000F008E"; // mdi-battery-outline
             } else {
-                icon = "\U000F0091"; // mdi-battery-unknown
+                icon = "\U000F06A5"; // mdi-power-plug
             }
             snprintf(buf, sizeof(buf), "%s", icon.c_str());
             return buf;
@@ -1060,6 +1071,7 @@ script:
                 else:
                   - lambda: |-
                       id(wifi_connection) = false;
+                  - lvgl.widget.hide: lbl_api
                   - lvgl.widget.hide: lbl_wifi
                   - lvgl.widget.hide: boot_screen
                   - lvgl.page.show: idle_page
@@ -2042,7 +2054,7 @@ select:
           id(okay_nabu).set_probability_cutoff(217);    // 0.85 -> 0.000 FAPH on DipCo (Manifest's default)
           id(hey_jarvis).set_probability_cutoff(247);   // 0.97 -> 0.563 FAPH on DipCo (Manifest's default)
           id(hey_mycroft).set_probability_cutoff(253);  // 0.99 -> 0.567 FAPH on DipCo
-          id(alexa).set_probability_cutoff(247);  // 0.97
+          id(alexa).set_probability_cutoff(250);  // 0.98
           id(okay_computer).set_probability_cutoff(247);
           id(hey_home_assistant).set_probability_cutoff(247);
           id(okay_hal).set_probability_cutoff(247);
@@ -2454,6 +2466,7 @@ font:
       - "\U000F057E"#speaker on
       - "\U000F0581"#speaker off
       - "\U000F05CB"#voice
+      - "\U000F06A5"#power-plug
       - "\U000F068A"#alarm home
       - "\U000F06E8"#light bulb illuminated
       - "\U000F075A"#music
@@ -4740,12 +4753,23 @@ lvgl:
                   y: 45
         - label:
             id: temp_label
+            hidden: true
             align: TOP_LEFT
             text_align: LEFT
             styles: clock_style
             text_color: lightblue
             text_font: my_font18
             x: 15
+            y: 40
+        - label:
+            id: humidity_label
+            hidden: true
+            align: TOP_RIGHT
+            text_align: RIGHT
+            styles: clock_style
+            text_color: lightblue
+            text_font: my_font18
+            x: -15
             y: 40
 
     - id: listening_page
