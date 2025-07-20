@@ -6166,8 +6166,8 @@ lvgl:
       checked:
         #bg_color: 0x1d5f96
         #bg_grad_color: 0x03324A
-        bg_color: 0x005782
-        bg_grad_color: 0x000000
+        bg_color: 0x000000
+        bg_grad_color: 0x008000
         bg_grad_dir: VER
         text_color: yellow
     buttonmatrix:
