@@ -107,7 +107,7 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 
 - Keypad - Pin code is required for alarm deactivation or changing modes, but not activation. 
 
-![security_keypad](https://github.com/user-attachments/assets/e4230884-b372-48e3-96ac-6c31571d2bcd)
+![keypad](https://github.com/user-attachments/assets/38949e87-908c-4192-a79f-7000efd451c5)
 
 # Screensaver
 ![analog_screensaver](https://github.com/user-attachments/assets/18a93b15-42e7-4121-88f1-f27fefd607e4)
