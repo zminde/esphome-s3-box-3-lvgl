@@ -6303,7 +6303,7 @@ lvgl:
                 condition:
                   switch.is_on: timer_ringing
                 then:
-                  - lvgl.page.show: time_remaining_page
+                  - lvgl.page.show: timer_finished_page
                 else:
                   - lvgl.page.show: alarmclock_page
       - buttonmatrix:
