@@ -1008,6 +1008,7 @@ script:
                                   - lambda: |-
                                       return (id(voice_assistant_phase) == ${voice_assist_timer_finishing_phase_id});
                             then:
+                              - lvgl.widget.hide: but_snooze
                               - lvgl.page.show: idle_page                       
                         - if:
                             condition:
@@ -5090,8 +5091,8 @@ lvgl:
                         grid_cell_y_align: STRETCH
                         on_press:
                           then:
-                            - switch.turn_off: timer_ringing
                             - lvgl.widget.hide: but_snooze
+                            - switch.turn_off: timer_ringing
                             - lvgl.page.show: idle_page
                     - button:
                         id: but_snooze
@@ -5114,8 +5115,8 @@ lvgl:
                               align: CENTER
                               text: "\U000F068E"
                         on_press:
-                          - switch.turn_off: timer_ringing
                           - lvgl.widget.hide: but_snooze
+                          - switch.turn_off: timer_ringing
                           - script.execute: snoozealarm
                           - lvgl.page.show: idle_page
 
@@ -6303,8 +6304,10 @@ lvgl:
                 condition:
                   switch.is_on: timer_ringing
                 then:
+                  - lvgl.widget.show: but_snooze
                   - lvgl.page.show: timer_finished_page
                 else:
+                  - lvgl.widget.hide: but_snooze
                   - lvgl.page.show: alarmclock_page
       - buttonmatrix:
           align: bottom_mid
