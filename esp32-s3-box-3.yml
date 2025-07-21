@@ -2013,6 +2013,7 @@ switch:
     icon: 'mdi:alarm'
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_off:
+      - lvgl.widget.hide: but_snooze
       - switch.turn_off: timer_ringing
 
 select:
@@ -5055,11 +5056,11 @@ lvgl:
                   align: CENTER
                   width: 100%
                   height: 170
-                  pad_all: 6
+                  pad_all: 4
                   bg_opa: TRANSP
                   border_opa: TRANSP
                   layout:
-                    pad_row: 6
+                    pad_row: 4
                     pad_column: 8
                     type: GRID
                     grid_columns: [FR(1)]
