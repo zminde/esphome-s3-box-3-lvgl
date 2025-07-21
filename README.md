@@ -3,7 +3,7 @@ ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 
 All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
 
-This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, alarm clock, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
 
 A UI Mode feature provides the ability to switch the voice assistant user experience from the standard voice assistant UI to a HAL 9000 animated UI or a Home animated UI. This can easily be extended to add other VA UI experiences.
 
@@ -35,7 +35,9 @@ Last tested on Home Assistant 2025.7.1 and ESPHome Version 2025.7.2.
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
 
 # Home
-![home](https://github.com/user-attachments/assets/c203e51d-90fa-4515-ab5f-3832160a6f21)
+![home](https://github.com/user-attachments/assets/f116d3ca-da10-46af-ae01-e91a1d0c5ffb)
+- Tapping on the clock will show the alarm clock page.
+- An alarm clock indicator will appear when the alarm clock is enabled and will launch the alarm settings page. 
 - A timer status indicator will appear while a timer is running and will launch the time remaining page
 - The alarm status indicator shows current alarm status and launches the security page
 - The microphone indicator is a mute switch
@@ -49,6 +51,7 @@ Last tested on Home Assistant 2025.7.1 and ESPHome Version 2025.7.2.
 
 # Voice Assistant
 ![voice](https://github.com/user-attachments/assets/8c36d316-00ce-40dd-b0ed-fcafdacbfcda)
+- Shown with default user interface (see UI Mode for options)
 
 **Voice Timer Started**
 
@@ -62,9 +65,15 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 
 ![timer_remaining](https://github.com/user-attachments/assets/347f669a-3fff-4e83-b83f-a98d6d2b5891)
 
-**Timer Finished**
+**Timer or Alarm Finished**
 
-![timer_finished](https://github.com/user-attachments/assets/9937af57-622a-445f-8673-225e46f03e45)
+![timer_finished](https://github.com/user-attachments/assets/35af66c8-e5af-488e-867e-1dd06876b234)
+- Snooze button only shows for Alarm (set to a 5 minute snooze)
+
+# Alarm Clock
+![alarmclock](https://github.com/user-attachments/assets/a995445e-31b6-4147-aa06-8937ef237174)
+- Access this page by clicking on the toolbar clock. Allows enabling alarm and setting a time.
+- Alarm Clock can be turned off from same page or is available as a switch so it can be turned off from voice assistant.
 
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
@@ -82,8 +91,8 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 # Media
 **Internal Audio**
 
-![media](https://github.com/user-attachments/assets/8429813a-2a50-4d6e-b839-2099bf9da5d4)
-![media_mute](https://github.com/user-attachments/assets/e01a7fb4-7653-4dcc-9dee-16ae9e02b21e)
+![media_green](https://github.com/user-attachments/assets/0634c06b-d91e-40cc-b3f6-841f1e569ac5)
+![media_red](https://github.com/user-attachments/assets/d887ca67-d660-4fc7-b403-6f7a36013427)
 - The volume controls on the media page control the volume of the S3 box including the Voice Assistant.
 
 **External Audio**
