@@ -71,8 +71,9 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 - Snooze button only shows for Alarm (set to a 5 minute snooze)
 
 # Alarm Clock
-![alarmclock](https://github.com/user-attachments/assets/a995445e-31b6-4147-aa06-8937ef237174)
+![alarmclock](https://github.com/user-attachments/assets/9bc6534f-4b19-4c4d-bc04-d07c1222a2fd)
 - Access this page by clicking on the toolbar clock. Allows enabling alarm and setting a time.
+- Presence snooze will trigger the ringing alarm clock to snooze once when motion is detected. 
 - Alarm Clock can be turned off from same page or is available as a switch so it can be turned off from voice assistant.
 
 # Climate
@@ -147,9 +148,10 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 
 **Device Settings**
 
-![device_settings](https://github.com/user-attachments/assets/180d84f0-be92-4092-8374-4fe20467af2b)
+![device_settings](https://github.com/user-attachments/assets/933b137e-753f-48ca-be44-0ab56fc527e8)
 - External Audio outputs audio to the external audio player configured in the substitions section.
 - Notify sound triggers a sound when a text notification is sent to the device. This is different to the wake sound.
+- Stop Ring on Presence will stop any ringing timer or alarm clock when motion is detected. If used with Presence snooze then after snooze complete on next ring motion will stop alarm clock.
 - Brightness slider controls screen brightness
 
 **UI Settings**
