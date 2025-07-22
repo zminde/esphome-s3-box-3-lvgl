@@ -89,7 +89,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.21"
+    version: "2025.07.22"
 
 esp32:
   board: esp32s3box
@@ -1562,6 +1562,7 @@ script:
               - lambda: 'return { (id(ha_time).now().hour == id(alarmclock_hour).get_selected_index()) };'
               - lambda: 'return { (id(ha_time).now().minute == (id(alarmclock_minutes).get_selected_index() * 5)) };'
           then:
+            - lambda: id(alarmclock_ringing) = true;
             - lvgl.widget.show: but_snooze
             - lambda: id(voice_assistant_phase) = ${voice_assist_timer_finished_phase_id};
             - switch.turn_on: timer_ringing
@@ -1683,8 +1684,15 @@ script:
                       id: replying_anim2
   - id: snoozealarm
     then:
+      - lambda: id(alarmclock_ringing) = false;
       - delay: 300 seconds
-      - lvgl.widget.show: but_snooze
+      - if:
+          condition:
+            switch.is_off: snoozeonpresence
+          then:
+            - lvgl.widget.show: but_snooze
+          else:
+            - lvgl.widget.hide: but_snooze
       - lambda: id(voice_assistant_phase) = ${voice_assist_timer_finished_phase_id};
       - switch.turn_on: timer_ringing
     mode: restart
@@ -2016,6 +2024,22 @@ switch:
       - lvgl.widget.hide: but_snooze
       - switch.turn_off: timer_ringing
 
+  - platform: lvgl
+    name: "Snooze on Presence"
+    id: snoozeonpresence
+    widget: chk_snoozeonceonpresence
+    icon: 'mdi:alarm-snooze'
+    entity_category: config
+    restore_mode: RESTORE_DEFAULT_OFF
+
+  - platform: lvgl
+    name: "Stop Ring On Presence"
+    id: stopringonpresence
+    widget: chk_stopringonpresence
+    icon: 'mdi:timer-remove'
+    entity_category: config
+    restore_mode: RESTORE_DEFAULT_OFF
+
 select:
   - platform: template
     entity_category: config
@@ -2315,6 +2339,9 @@ globals:
   - id: current_uimode
     type: std::string
     initial_value: ""
+  - id: alarmclock_ringing
+    type: bool
+    restore_value: false
     
 image:
 #Default Images
@@ -2434,6 +2461,12 @@ font:
   - file: ${font_file}
     id: my_font
     size: 14
+    glyphs:
+      '${font_glyphs}'
+
+  - file: ${font_file}
+    id: my_font12
+    size: 12
     glyphs:
       '${font_glyphs}'
 
@@ -5094,6 +5127,7 @@ lvgl:
                           then:
                             - lvgl.widget.hide: but_snooze
                             - switch.turn_off: timer_ringing
+                            - lambda: id(alarmclock_ringing) = false;
                             - lvgl.page.show: idle_page
                     - button:
                         id: but_snooze
@@ -5829,6 +5863,16 @@ lvgl:
                         grid_cell_y_align: CENTER
                         on_change:
                           switch.toggle: notify_sound
+                    - checkbox:
+                        id: chk_stopringonpresence
+                        text: "Stop Ring on Presence"
+                        align: LEFT_MID
+                        text_align: LEFT
+                        text_color: 0xFFFFFF
+                        grid_cell_column_pos: 0
+                        grid_cell_row_pos: 2
+                        grid_cell_x_align: START
+                        grid_cell_y_align: CENTER
               - obj:
                    align: CENTER
                    y: 75
@@ -6129,28 +6173,48 @@ lvgl:
                     grid_columns: [FR(1), FR(1)]
                     grid_rows: [FR(99), FR(1)]
                   widgets:
-                    - button:
-                        id: btn_alarmclock
-                        grid_cell_column_pos: 0
-                        grid_cell_row_pos: 0
-                        grid_cell_x_align: CENTER
-                        grid_cell_y_align: CENTER
-                        checkable: true
-                        widgets:
-                          - label:
-                              id: ico_alarmclock_1
-                              align: CENTER
-                              text_font: icon_font_55
-                              text: "\U000F0020"
-                        on_value:
-                          then:
-                            - if:
-                                condition:
-                                  lambda: return x;
-                                then:
-                                  - lvgl.widget.show: lbl_alarmclock
-                                else:
-                                  - lvgl.widget.hide: lbl_alarmclock
+                    - obj:
+                         align: CENTER
+                         grid_cell_column_pos: 0
+                         grid_cell_row_pos: 0
+                         grid_cell_x_align: CENTER
+                         grid_cell_y_align: CENTER
+                         bg_color: 0x000000
+                         bg_opa: TRANSP
+                         border_opa: TRANSP
+                         width: 45%
+                         height: 90%
+                         pad_all: 0
+                         layout:
+                           type: FLEX
+                           flex_flow: COLUMN
+                           flex_align_cross: CENTER
+                           flex_align_main: CENTER
+                         widgets:
+                           - button:
+                               id: btn_alarmclock
+                               checkable: true
+                               widgets:
+                                 - label:
+                                     id: ico_alarmclock_1
+                                     align: CENTER
+                                     text_font: icon_font_55
+                                     text: "\U000F0020"
+                               on_value:
+                                 then:
+                                   - if:
+                                       condition:
+                                         lambda: return x;
+                                       then:
+                                         - lvgl.widget.show: lbl_alarmclock
+                                       else:
+                                         - lvgl.widget.hide: lbl_alarmclock
+                           - checkbox:
+                               id: chk_snoozeonceonpresence
+                               text: "Presence Snooze"
+                               text_font: my_font12
+                               text_align: LEFT
+                               text_color: 0xFFFFFF
                     - obj:
                          align: CENTER
                          grid_cell_column_pos: 1
@@ -6573,16 +6637,47 @@ binary_sensor:
     filters:
       - delayed_off: !lambda return id(radar_delayed_off).state * 1000;
     on_state:
-      if:
-        condition:
-          and:
-            - lambda: "return x;"
-            - switch.is_on: s_saver
-            - switch.is_on: s_saver_presc
-        then:
-          - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
-          - lvgl.page.show: idle_page
-          - script.execute: saver_enabled
+      - if:
+          condition:
+            and:
+              - lambda: "return x;"
+              - switch.is_on: s_saver
+              - switch.is_on: s_saver_presc
+          then:
+            - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
+            - lvgl.page.show: idle_page
+            - script.execute: saver_enabled
+      - if:
+          condition:
+            and:
+              - lambda: "return x;"
+              - switch.is_on: stopringonpresence
+              - switch.is_on: timer_ringing
+              - switch.is_off: snoozeonpresence
+          then:
+            - switch.turn_off: timer_ringing
+      - if:
+          condition:
+            and:
+              - lambda: "return x;"
+              - switch.is_on: stopringonpresence
+              - switch.is_on: timer_ringing
+              - switch.is_on: snoozeonpresence
+              - switch.is_on: alarmclock
+              - lambda: return !id(alarmclock_ringing);
+          then:
+            - switch.turn_off: timer_ringing
+      - if:
+          condition:
+            and:
+              - lambda: "return x;"
+              - switch.is_on: snoozeonpresence
+              - lambda: return id(alarmclock_ringing);
+              - switch.is_on: alarmclock
+              - switch.is_on: timer_ringing
+          then:
+            - switch.turn_off: timer_ringing
+            - script.execute: snoozealarm
 
 ##### LIGHT PAGE BINARY SENSORS #####
   # - platform: homeassistant
