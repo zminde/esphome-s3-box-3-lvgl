@@ -1,13 +1,14 @@
 # ESP32-S3-Box-3 LVGL Firmware 
 ESP Home Configuration for the S3-Box-3 with an LVGL UI.
 
-All credit and inspiration for the original UI goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
+All credit and inspiration for the original UI and device configuration goes to https://github.com/BigBobbas/ESP32-S3-Box3-Custom-ESPHome/
 
-This firmware provides the S3 box 3 with a template for voice assistant, timers, screen saver with analog/digital clock, sleep, 12/24 hour time, media controls, radar sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, alarm clock, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks and anything you want to add.
+This firmware provides the S3 box 3 with a voice assistant, timers, screen saver with analog/digital clock and sleep, 12/24 hour time, media controls, radar/presence sensing, temperature (in Celsius or Fahrenheit) and humidity sensing, battery levels and indicator, alarmo integration, alarm clock, internal and external audio, notifications with sound, and multiple pages for lights, thermostats, switches, media, scenes, locks other devices from your Home Assistant.
 
-A UI Mode feature provides the ability to switch the voice assistant user experience from the standard voice assistant UI to a HAL 9000 animated UI or a Home animated UI. This can easily be extended to add other VA UI experiences.
+A UI Mode feature provides the ability to switch the voice assistant user experience from the standard voice assistant UI to a HAL 9000 animated UI or a Home animated UI. This can easily be extended to add other UI experiences.
 
-The On Device Wake Word includes the standard ESPHome wakeword models but also some experimental models including okay computer, hey home assistant, okay hal and hey luna.
+The On Device Wake Word includes the standard ESPHome wakeword models (4) but also some experimental models including okay hal and hey luna.
+Additional experimental wake words for okay computer and hey home assistant and included in the config but disabled by default. 
 
 This is effectively a template for others wishing to configure the S3 box as it is a complete UI but it requires integration of the required components to provide functionality.
 This configuration is suitable for anyone with an understanding of ESPHOME, the S3-Box-3, Home Assistant and Wake Word Voice Assistants.
@@ -29,7 +30,7 @@ Sensor dock & battery are optional to use radar/presence, battery level and temp
 
 The minimum supported ESPHome version is 2025.6.0.
 
-Last tested on Home Assistant 2025.7.1 and ESPHome Version 2025.7.2.
+Last tested on Home Assistant 2025.7.3 and ESPHome Version 2025.7.3.
 
 # Loading
 ![loading](https://github.com/user-attachments/assets/55e0a1b8-8873-42a3-864f-297fa6826b6e)
@@ -68,13 +69,14 @@ https://github.com/user-attachments/assets/6a4cc3aa-5d56-4a20-91e0-ba3e1859db3c
 **Timer or Alarm Finished**
 
 ![timer_finished](https://github.com/user-attachments/assets/35af66c8-e5af-488e-867e-1dd06876b234)
-- Snooze button only shows for Alarm (set to a 5 minute snooze)
+- Snooze button only shows for Alarm (snooze duration can be set in Home Assistant - default 5 minutes)
 
 # Alarm Clock
 ![alarmclock](https://github.com/user-attachments/assets/9bc6534f-4b19-4c4d-bc04-d07c1222a2fd)
 - Access this page by clicking on the toolbar clock. Allows enabling alarm and setting a time.
-- Presence snooze will trigger the ringing alarm clock to snooze once when motion is detected. 
+- Presence snooze will trigger the ringing alarm clock to snooze only once when motion is detected. 
 - Alarm Clock can be turned off from same page or is available as a switch so it can be turned off from voice assistant.
+- Snooze duration can be set in Home Assistant (default 5 minutes).
 
 # Climate
 ![climate](https://github.com/user-attachments/assets/9e9e0256-6dce-487e-b432-e7d0861f1e4e)
