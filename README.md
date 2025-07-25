@@ -10,6 +10,7 @@ Each provides a different theme and voice assistant interface.
 - Default provides the original theme and a more standard Home Assistant experience. 
 - HAL provides a darker theme and an animated Space Odyssey inspired 2001 HAL voice assistant.
 - Home provides a more subtle theme and an animated Google inspired voice assistant.
+
 The wakeword is not tied to the UI Mode providing flexibility for your preferred experience.
 
 The On Device Wake Word includes the standard ESPHome wakeword models (4) but also some experimental models including okay hal and hey luna.
