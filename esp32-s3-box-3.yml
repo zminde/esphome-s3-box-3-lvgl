@@ -1,6 +1,9 @@
+# 本配置文件在源配置文件基础上已做出以下修改：
+# 1、修改主机IP
+# 2、
 substitutions:
   name: esp32-s3box-3
-  friendly_name: ESP32-S3-Box-3
+  friendly_name: ESP32-S3-Box-3-Custom
   #Default Images
   loading_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/loading_lvgl.png
   idle_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/idle.png
@@ -45,7 +48,7 @@ substitutions:
   voice_assist_timer_finishing_phase_id: "30"
   
   external_media_player: your_media_player  ##change this to your external media player enity_id: do not include media_player.
-  home_assistant_host: http://homeassistant.local:8123 ##change to the full url or IP of your HA server including port
+  home_assistant_host: https://192.168.0.240:8123 ##change to the full url or IP of your HA server including port
   tts_voice_speed: "24000" #options #nabu casa "24000" #piper "16000" elevenlabs "44100" must include quotes
 
 ###### Fonts & Icons ######
@@ -89,7 +92,7 @@ esphome:
 
   project:
     name: "Christian.s3box3"
-    version: "2025.07.25"
+    version: "2025.07.23"
 
 esp32:
   board: esp32s3box
@@ -123,9 +126,11 @@ ota:
       - lambda: id(led).turn_on().set_brightness(1.0).set_transition_length(0).perform();
                 id(led).loop();
       - lvgl.page.show: ota_page
+      - lvgl.widget.refresh:
       - lambda: "id(lvgl_display).loop();"
     on_progress:
       then:
+        - lvgl.widget.refresh:
         - lambda: "id(lvgl_display).loop();"
 
 logger:
@@ -773,7 +778,7 @@ voice_assistant:
   micro_wake_word: mww
   noise_suppression_level: 2
   auto_gain: 31dBFS
-  volume_multiplier: 4.0
+  volume_multiplier: 2.0
   on_wake_word_detected:
     - lambda: id(global_is_assisting) = true;
     - if:
@@ -1579,22 +1584,6 @@ script:
                       id: header_footer
                       bg_color: 0x1d5f96
                       bg_grad_color: 0x004466
-                  - lvgl.style.update:
-                      id: button_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x005782
-                  - lvgl.style.update:
-                      id: button_standard_style
-                      bg_color: 0x2F8CD8
-                      bg_grad_color: 0x005782
-                  - lvgl.style.update:
-                      id: button_pressed_style
-                      bg_color: 0x666666
-                      bg_grad_color: 0x00334d
-                  - lvgl.style.update:
-                      id: button_checked_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x002233
                   - lvgl.buttonmatrix.update:
                       id: top_layer
                       items:
@@ -1617,22 +1606,6 @@ script:
                       id: header_footer
                       bg_color: 0x1a1a1a
                       bg_grad_color: 0x000000
-                  - lvgl.style.update:
-                      id: button_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x000000
-                  - lvgl.style.update:
-                      id: button_standard_style
-                      bg_color: 0xcc0000
-                      bg_grad_color: 0x800000
-                  - lvgl.style.update:
-                      id: button_pressed_style
-                      bg_color: 0x666666
-                      bg_grad_color: 0x4d0000
-                  - lvgl.style.update:
-                      id: button_checked_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x4d0000
                   - lvgl.buttonmatrix.update:
                       id: top_layer
                       items:
@@ -1655,22 +1628,6 @@ script:
                       id: header_footer
                       bg_color: 0x595959
                       bg_grad_color: 0x404040
-                  - lvgl.style.update:
-                      id: button_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x404040
-                  - lvgl.style.update:
-                      id: button_standard_style
-                      bg_color: 0x216dab
-                      bg_grad_color: 0x404040
-                  - lvgl.style.update:
-                      id: button_pressed_style
-                      bg_color: 0x666666
-                      bg_grad_color: 0x00334d
-                  - lvgl.style.update:
-                      id: button_checked_style
-                      bg_color: 0x000000
-                      bg_grad_color: 0x002233
                   - lvgl.buttonmatrix.update:
                       id: top_layer
                       items:
@@ -1686,7 +1643,7 @@ script:
                   - lvgl.widget.hide: replying_anim2
                   - lvgl.widget.hide: error_anim2
             - lambda: id(current_uimode) = id(uimode).state;
-            - lvgl.widget.redraw:
+            - lvgl.widget.refresh:
           else:
             - if:
                 condition:
@@ -1728,7 +1685,6 @@ script:
                 else:
                   - lvgl.animimg.stop:
                       id: replying_anim2
-
   - id: snoozealarm
     then:
       - lambda: id(alarmclock_ringing) = false;
@@ -2321,7 +2277,7 @@ number:
     icon: mdi:account-clock
     optimistic: true
     restore_value: true
-    initial_value: 60
+    initial_value: 10
     min_value: 10
     step: 5
     max_value: 300
@@ -3268,11 +3224,6 @@ lvgl:
                   widgets:
                     - button:
                         id: but_home_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 0
                         grid_cell_x_align: STRETCH
@@ -3284,16 +3235,11 @@ lvgl:
                               text_font: icon_font_55
                               text_color: lightblue
                               text: "\U000F050F"
-                        on_release:
+                        on_press:
                           then:
                             lvgl.page.show: climate_page
                     - button:
                         id: but_home_2
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 0
                         grid_cell_x_align: STRETCH
@@ -3305,16 +3251,11 @@ lvgl:
                               text_font: icon_font_55
                               text_color: yellow
                               text: "\U000F06E8"
-                        on_release:
+                        on_press:
                           then:
                             lvgl.page.show: lights_page
                     - button:
                         id: but_home_3
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 2
                         grid_cell_row_pos: 0
                         grid_cell_x_align: STRETCH
@@ -3326,16 +3267,11 @@ lvgl:
                               text_font: icon_font_55
                               text_color: fuchsia
                               text: "\U000F097E"
-                        on_release:
+                        on_press:
                           then:
                             lvgl.page.show: controls_page
                     - button:
                         id: but_home_4
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3347,16 +3283,11 @@ lvgl:
                               text_font: icon_font_55
                               text_color: red
                               text: "\U000F075A"
-                        on_release:
+                        on_press:
                           then:
                             - lvgl.page.show: media_page
                     - button:
                         id: but_home_5
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3368,16 +3299,11 @@ lvgl:
                               text_font: icon_font_55
                               text_color: aqua
                               text: "\U000F0FCE"
-                        on_release:
+                        on_press:
                           then:
                             lvgl.page.show: scenes_page
                     - button:
                         id: but_home_6
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 2
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3389,7 +3315,7 @@ lvgl:
                               text_font: icon_font_55
                               text_color: lime
                               text: "\U000F033E"
-                        on_release:
+                        on_press:
                           then:
                             lvgl.page.show: security_page
     - id: climate_page
@@ -3448,11 +3374,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_climate_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 2
                         grid_cell_x_align: STRETCH
@@ -3464,7 +3385,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F0210"
-                        on_release:
+                        on_press:
                           then:
                             - lvgl.page.show: climate_studio_page
                             - delay: 1s
@@ -3665,11 +3586,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_studioac_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3802,11 +3718,6 @@ lvgl:
                                       # hvac_mode: dry
                     - button:
                         id: studioac_spin_down
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         on_click:
                           - lvgl.spinbox.decrement: spinbox_studioac
                         widgets:
@@ -3837,11 +3748,6 @@ lvgl:
                                     # return x;
                     - button:
                         id: studioac_spin_up
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         on_click:
                           - lvgl.spinbox.increment: spinbox_studioac
                         widgets:
@@ -3894,11 +3800,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3928,11 +3829,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_2
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3962,11 +3858,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_3
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 2
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -3996,11 +3887,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_4
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -4030,11 +3916,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_5
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -4064,11 +3945,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_light_6
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 2
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -4134,11 +4010,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_control_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -4167,11 +4038,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_control_2
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -4210,11 +4076,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_control_4
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -4243,11 +4104,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_control_5
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -4580,11 +4436,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_scenes_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -4623,11 +4474,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_scenes_2
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -4702,11 +4548,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_security_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -4750,12 +4591,10 @@ lvgl:
                   items:
                     text_font: icon_font_55
                     text_color: 0xFFFFFF
-                    styles: button_style
+                    bg_color: 0x000000
+                    border_color: 0x000000
                     border_width: 0
-                    pressed:
-                      styles: button_pressed_style
                     checked:
-                      styles: button_checked_style
                       text_color: lime
                   rows:
                     - buttons:
@@ -4765,7 +4604,7 @@ lvgl:
                           checkable: true
                           recolor: true
                         text: "#FF0000 \U000F099E#"
-                        on_release:
+                        on_press:
                           - if:
                               condition:
                                 lambda: return (id(alarm_status).state != "disarmed");
@@ -5291,11 +5130,9 @@ lvgl:
                         grid_cell_row_pos: 0
                         grid_cell_x_align: STRETCH
                         grid_cell_y_align: STRETCH
-                        on_release:
+                        on_press:
                           then:
-                            - lvgl.widget.hide: but_snooze
                             - switch.turn_off: timer_ringing
-                            - lambda: id(alarmclock_ringing) = false;
                             - lvgl.page.show: idle_page
                     - label:
                         text: "Tap screen to dismiss"
@@ -5307,7 +5144,7 @@ lvgl:
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
                         grid_cell_y_align: STRETCH
-                        on_release:
+                        on_press:
                           then:
                             - lvgl.widget.hide: but_snooze
                             - switch.turn_off: timer_ringing
@@ -5315,8 +5152,9 @@ lvgl:
                             - lvgl.page.show: idle_page
                     - button:
                         id: but_snooze
-                        styles: button_standard_style
                         hidden: true
+                        bg_color: 0x2F8CD8
+                        bg_grad_color: 0x005782
                         bg_grad_dir: VER
                         pressed:
                           bg_color: 0x006699
@@ -5332,7 +5170,7 @@ lvgl:
                               text_font: icon_font_20
                               align: CENTER
                               text: "\U000F068E"
-                        on_release:
+                        on_press:
                           - lvgl.widget.hide: but_snooze
                           - switch.turn_off: timer_ringing
                           - script.execute: snoozealarm
@@ -5430,11 +5268,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_settings_1
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -5445,7 +5278,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F036F"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: voice_set_page
                     - label:
                         text: "Screensaver"
@@ -5458,11 +5291,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_settings_2
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -5473,7 +5301,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F0D90"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: ss_set_page
                     - label:
                         text: "Info"
@@ -5486,11 +5314,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_settings_3
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 2
                         grid_cell_row_pos: 1
                         grid_cell_x_align: STRETCH
@@ -5501,7 +5324,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F1C6F"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: info_page
                     - label:
                         text: "Device"
@@ -5514,11 +5337,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_settings_4
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 0
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -5529,7 +5347,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F08D6"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: device_set_page
                     - label:
                         text: "UI"
@@ -5542,11 +5360,6 @@ lvgl:
                         grid_cell_y_align: STRETCH
                     - button:
                         id: but_settings_5
-                        styles: button_style
-                        pressed:
-                          styles: button_pressed_style
-                        checked:
-                          styles: button_checked_style
                         grid_cell_column_pos: 1
                         grid_cell_row_pos: 3
                         grid_cell_x_align: STRETCH
@@ -5557,7 +5370,7 @@ lvgl:
                               align: CENTER
                               text_font: icon_font_55
                               text: "\U000F0502"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: ui_set_page
 
     - id: voice_set_page
@@ -5707,7 +5520,8 @@ lvgl:
                           switch.toggle: s_saver
                     - button:
                         id: but_ss_set_1
-                        styles: button_standard_style
+                        bg_color: 0x2F8CD8
+                        bg_grad_color: 0x005782
                         bg_grad_dir: VER
                         pressed:
                           bg_color: 0x006699
@@ -5721,7 +5535,7 @@ lvgl:
                               id: ico_ss_set_1
                               align: CENTER
                               text: "Settings"
-                        on_release:
+                        on_press:
                           - lvgl.page.show: timeout_settings_page
                     - checkbox:
                         id: chk_wake_presence
@@ -5806,11 +5620,6 @@ lvgl:
                          widgets:
                            - button:
                                id: delay_spin_down
-                               styles: button_style
-                               pressed:
-                                 styles: button_pressed_style
-                               checked:
-                                 styles: button_checked_style
                                on_click:
                                  - lvgl.spinbox.decrement: spinbox_delay
                                widgets:
@@ -5838,11 +5647,6 @@ lvgl:
                                            value: !lambda return x;
                            - button:
                                id: delay_spin_up
-                               styles: button_style
-                               pressed:
-                                 styles: button_pressed_style
-                               checked:
-                                 styles: button_checked_style
                                on_click:
                                  - lvgl.spinbox.increment: spinbox_delay
                                widgets:
@@ -5876,11 +5680,6 @@ lvgl:
                          widgets:
                            - button:
                                id: scr_delay_spin_down
-                               styles: button_style
-                               pressed:
-                                 styles: button_pressed_style
-                               checked:
-                                 styles: button_checked_style
                                on_click:
                                  - lvgl.spinbox.decrement: spinbox_scr_delay
                                widgets:
@@ -5908,11 +5707,6 @@ lvgl:
                                            value: !lambda return x;
                            - button:
                                id: scr_delay_spin_up
-                               styles: button_style
-                               pressed:
-                                 styles: button_pressed_style
-                               checked:
-                                 styles: button_checked_style
                                on_click:
                                  - lvgl.spinbox.increment: spinbox_scr_delay
                                widgets:
@@ -6420,11 +6214,6 @@ lvgl:
                          widgets:
                            - button:
                                id: btn_alarmclock
-                               styles: button_style
-                               pressed:
-                                 styles: button_pressed_style
-                               checked:
-                                 styles: button_checked_style
                                checkable: true
                                widgets:
                                  - label:
@@ -6519,7 +6308,7 @@ lvgl:
           text_font: my_font
           text_color: 0xFFFFFF
           text: ""
-          on_release:
+          on_press:
             then:
               lvgl.page.show: alarmclock_page
       - label:
@@ -6540,7 +6329,7 @@ lvgl:
           text_align: right
           text_color: 0xFFFFFF
           text_font: montserrat_20
-          on_release:
+          on_press:
             then:
               lvgl.page.show: wifi_page
       - label:
@@ -6560,7 +6349,7 @@ lvgl:
           text_font: icon_font_20
           text_color: 0xFFFFFF
           text: "\U000F036C"
-          on_release:
+          on_press:
             then:
               - switch.toggle: mute_switch
       - label:
@@ -6571,7 +6360,7 @@ lvgl:
           text_font: icon_font_20
           text_color: 0xFFFFFF
           text: "\U000F099E"
-          on_release:
+          on_press:
             then:
               - lvgl.page.show: security_page
       - label:
@@ -6583,7 +6372,7 @@ lvgl:
           text_font: icon_font_20
           text_color: 0xFFFFFF
           text: "\U000F051B"
-          on_release:
+          on_press:
             then:
               - lvgl.page.show: time_remaining_page
       - label:
@@ -6595,7 +6384,7 @@ lvgl:
           text_font: icon_font_20
           text_color: 0xFFFFFF
           text: "\U000F0020"
-          on_release:
+          on_press:
             then:
               if:
                 condition:
@@ -6619,22 +6408,22 @@ lvgl:
             - buttons:
               - id: page_prev
                 text: "\uF053"
-                on_release:
+                on_press:
                   then:
                     lvgl.page.previous:
               - id: page_home
                 text: "\uF015"
-                on_release:
+                on_press:
                   then:
                     lvgl.page.show: idle_page
               - id: page_settings
                 text: "\uF013"
-                on_release:
+                on_press:
                   then:
                     lvgl.page.show: settings_page
               - id: page_next
                 text: "\uF054"
-                on_release:
+                on_press:
                   then:
                     lvgl.page.next:
       - bar:
@@ -6677,7 +6466,7 @@ lvgl:
                 indicator:
                   arc_color: 0x18bcf2
                   arc_width: 8
-          on_release:
+          on_press:
             - lvgl.widget.hide: boot_screen
 
   theme:
@@ -6690,12 +6479,13 @@ lvgl:
       bg_opa: COVER
       border_color: 0x000000
       border_width: 1
-      shadow_width: 0
       text_color: 0xFFFFFF
       pressed:
         bg_color: 0x666666 #grey
         bg_grad_color: 0x00334d #dark blue
       checked:
+        #bg_color: 0x1d5f96 #blue
+        #bg_grad_color: 0x03324A #darker blue
         bg_color: 0x000000 #black
         bg_grad_color: 0x002233 #darker blue
         bg_grad_dir: VER
@@ -6707,13 +6497,14 @@ lvgl:
       text_color: 0xFFFFFF
       pad_all: 0
       items:
+        # bg_color: 0x1a1a1a # grey
+        # bg_grad_color: 0x000000 # black
         bg_color: 0x185281
         bg_grad_color: 0x00334d
         bg_grad_dir: VER
         bg_opa: 60%
         border_color: 0x0077b3
         border_width: 1
-        shadow_width: 0
         text_color: 0xFFFFFF
         text_font: my_font
         pressed:
@@ -6758,6 +6549,8 @@ lvgl:
         text_color: 0xFFFFFF
   style_definitions:
     - id: header_footer
+      # bg_color: 0x1a1a1a # dark
+      # bg_grad_color: 0x000000 # dark
       bg_color: 0x1d5f96
       bg_grad_color: 0x004466
       bg_grad_dir: VER
@@ -6782,26 +6575,6 @@ lvgl:
     - id: clock_style
       text_color: 0xFFFFFF
       text_font: my_font
-    - id: button_style
-      bg_color: 0x000000 #black
-      bg_grad_color: 0x005782 #blue
-      bg_grad_dir: VER
-      bg_opa: COVER
-      border_color: 0x000000
-      border_width: 1
-      text_color: 0xFFFFFF
-    - id: button_pressed_style
-      bg_color: 0x666666 #grey
-      bg_grad_color: 0x00334d #dark blue
-    - id: button_checked_style
-      bg_color: 0x000000 #black
-      bg_grad_color: 0x002233 #darker blue
-      bg_grad_dir: VER
-      text_color: yellow
-    - id: button_standard_style
-      bg_color: 0x2F8CD8
-      bg_grad_color: 0x005782
-      shadow_width: 0
 
 binary_sensor:
 ###### top left hand physical button #######
