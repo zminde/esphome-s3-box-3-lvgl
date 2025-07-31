@@ -1,9 +1,10 @@
 # 本配置文件各项功能基本正常，并在源配置文件基础上做出以下修改：
 # 1、修改主机IP
-# 2、
+# 2、修改文字消息显示时间
+# 3、修改雷达探测距离
 substitutions:
   name: esp32-s3box-3
-  friendly_name: ESP32-S3-Box-3-Custom
+  friendly_name: ESP32-S3-Box-3-oam2
   #Default Images
   loading_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/loading_lvgl.png
   idle_illustration_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/images/idle.png
@@ -48,11 +49,11 @@ substitutions:
   voice_assist_timer_finishing_phase_id: "30"
   
   external_media_player: your_media_player  ##change this to your external media player enity_id: do not include media_player.
-  home_assistant_host: https://192.168.0.240:8123 ##change to the full url or IP of your HA server including port
+  home_assistant_host: http://192.168.0.242:8123 ##change to the full url or IP of your HA server including port
   tts_voice_speed: "24000" #options #nabu casa "24000" #piper "16000" elevenlabs "44100" must include quotes
 
 ###### Fonts & Icons ######
-  font_glyphs: '&@!"''%()+=,-_.:°/$€£¥?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzÀàÁáÂâÃãÄäĀāĂăÅåǺǻẠạĄąÆæǼǽĆćĈĉČčĊċÇçĎďĐđÐðÈèÉéÊêẼẽĚěËëĒēĔĕĖėẸẹĘęĜĝǦǧĞğĠġĢģĤĥĦħıÌìÍíÎîĨĩÏïĪīĬĭİỊịĮįȷĴĵĶķĸĹĺĽľĻļŁłĿŀŃńÑñŇňŅņƝɲŊŋŉÒòÓóÔôÕõÖöŌōŎŏŐőỌọǪǫØøǾǿŒœŔŕŘřŖŗŚśŜŝŠšŞşȘșẞßŤťŢţȚțŦŧÞþÙùÚúÛûŨũÜüŪūŬŭŮůŰűỤụŲųẀẁẂẃŴŵẄẅỲỳÝýŶŷỸỹŸÿȲȳŹźŽžŻżĲĳƏə'
+  font_glyphs: '&@!"''%()+=,-_.:°/$€£¥?0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzÀàÁáÂâÃãÄäĀāĂăÅåǺǻẠạĄąÆæǼǽĆćĈĉČčĊċÇçĎďĐđÐðÈèÉéÊêẼẽĚěËëĒēĔĕĖėẸẹĘęĜĝǦǧĞğĠġĢģĤĥĦħıÌìÍíÎîĨĩÏïĪīĬĭİỊịĮįȷĴĵĶķĸĹĺĽľĻļŁłĿŀŃńÑñŇňŅņƝɲŊŋŉÒòÓóÔôÕõÖöŌōŎŏŐőỌọǪǫØøǾǿŒœŔŕŘřŖŗŚśŜŝŠšŞşȘșẞßŤťŢţȚțŦŧÞþÙùÚúÛûŨũÜüŪūŬŭŮůŰűỤụŲųẀẁẂẃŴŵẄẅỲỳÝýŶŷỸỹŸÿȲȳŹźŽžŻżĲĳƏə 一是不人在他有这上们来到时大地为子中你说生国年着就那和要她出也得里后自以会家可下而过天去能对小多然于心学之都好看起发当没成只如事把还用第样道想作种开美总从无情己面最女但现前些所同日手又行意动方期它头经长儿回位分爱老因很给名法间知世什两次使身者被高已亲其进此话常与活正感见明问力理点文几定本公特做外孩相西果走将月十实向声车全信重三机工物气每并别真打太新比才便夫再书部水像眼等体却加电主界门利海受听表德少代员许先口由安写性光白或住难望教命花结乐色更拉东神记处让母父应直字场平报友关放至张认接告入笑内军民岁往何度山觉路带万男边解叫任金快原吃妈变通师立象数四失满战远格士音轻目条呢病始达深完今提求清王化空业思切怎非找片罗钱语元喜曾离飞科言干流欢约各即指合反题必论交终林请医晚制球决传画保读运及则房早院量苦火布品近坐产答星精视连司奇管类未且台夜青北队久越观落尽形影红爸百令周吧识步希术留市半热送兴造谈容极随演收首根讲整式取照办强石古华拿计装似足双妻转诉米称丽客南领节衣站黑刻统断福城故历惊脸选包紧争另建维绝树系伤示愿持千史谁准联妇纪基买志静阿诗独复痛消社算义竟确酒需单治卡幸念举仅钟怕共毛句息功官待究跟穿室易游程号居考突皮哪费倒价图具刚脑永歌响商礼细专黄块脚味灵改据般破引食仍存众注笔甚某沉血备习校默务土微娘须试怀料调广苏显赛查密议底列富梦错座参八除跑亮假印设线温虽掉京初养香停际致阳纸李纳验助激够严证帝饭忘趣支春集丈木研班普导顿睡展跳获艺六波察群皇段急庭创区奥器谢弟店否害草排背止组州朝封睛板角况曲馆育忙质河续哥呼若推境遇雨标姐充围案伦护冷警贝著雪索剧啊船险依斗值帮汉慢佛肯闻唱沙局伯族低玩资屋击速顾泪洲团圣旁堂兵七露园牛哭旅街劳型烈姑陈莫鱼异抱宝权简态级票怪寻杀律胜份汽右洋范床舞秘午登楼贵吸责例追较职属渐左录丝牙党继托赶章智冲叶胡吉卖坚喝肉遗救修松临藏担戏善卫药悲敢靠伊村戴词森耳差短祖云规窗散迷油旧适乡架恩投弹铁博雷府压超负杂醒洗采毫嘴毕九冰既状乱景席珍童顶派素脱农疑练野按犯拍征坏骨余承置彩灯巨琴免环暗换技翻束增忍餐洛塞缺忆判欧层付阵玛批岛项狗休懂武革良恶恋委拥妙探呀营退摇弄桌熟诺宣银势奖宫忽套康供优课鸟喊降夏困刘罪亡鞋健模败伴守挥鲜财孤枪禁恐伙杰迹妹遍盖副坦牌江顺秋萨菜划授归浪听凡预奶雄升编典袋莱含盛济蒙棋端腿招释烧误智控网联蓝牙遥感器锁窗帘暖冷模式问候谢再见晚安睡跑买卖爸妈哥姐弟妹家室温湿风速播报查询预约关掉开启调节节能省电安全监控语音助手'
   font_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/fonts/consola.ttf
   icon_font_file: https://github.com/chrisdunnname/esphome-s3-box-3-lvgl/raw/main/fonts/materialdesignicons-webfont.ttf
 #Note: LVGL includes it's own font montserrat which contains a limited set of core icons.
@@ -71,7 +72,7 @@ esphome:
       - at581x.settings:
           id: "Radar"
           sensing_distance: 1000
-          stage_gain: 12
+          stage_gain: 10
       - lambda: id(led).turn_on().set_brightness(id(s_default_brightness).state /100).perform();
       - lambda: id(time_remaining_0).publish_state ("0:00:00");
       - script.execute: draw_display
@@ -1493,7 +1494,7 @@ script:
       - text.set:
           id: notification_text
           value: ""
-      - delay: 10s
+      - delay: 20s
       - lambda: id(previous_notification_text) = "";
       - lvgl.page.show: idle_page
       - script.execute: draw_display
@@ -2278,7 +2279,7 @@ number:
     optimistic: true
     restore_value: true
     initial_value: 10
-    min_value: 10
+    min_value: 5
     step: 5
     max_value: 300
     unit_of_measurement: 'secs'
